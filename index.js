@@ -25,4 +25,4 @@ loadAdminCommands(client, path.join(__dirname, 'module/function/admin'));
 loadEvents(client, path.join(__dirname, 'module/event'));
 
 setupGlobalErrorHandling(client);
-client.login(process.env.TOKEN);
+client.login(process.env.DISCORD_TOKEN);
