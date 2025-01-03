@@ -1,4 +1,4 @@
-const { EmbedBuilder, DiscordAPIError, Colors } = require('discord.js');
+const { EmbedBuilder, DiscordAPIError, Colors, MessageFlags } = require('discord.js');
 const config = require('../file/setting/config.json');
 
 module.exports = async function handleContextMenuError(client, interaction, error) {
@@ -10,7 +10,7 @@ module.exports = async function handleContextMenuError(client, interaction, erro
             setTimeout(() => msg?.delete().catch(console.error), 5000);
         } else {
             const replyMethod = interaction.deferred || interaction.replied ? 'followUp' : 'reply';
-            await interaction[replyMethod]({ content: errorMessage, ephemeral: true });
+            await interaction[replyMethod]({ content: errorMessage, flags: MessageFlags.Ephemeral });
         }
     } catch (notificationError) {
         console.error('エラー通知の送信に失敗しました:', notificationError);

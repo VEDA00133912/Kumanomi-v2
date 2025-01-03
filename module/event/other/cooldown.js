@@ -1,3 +1,4 @@
+const { MessageFlags } = require('discord.js'); 
 const cooldowns = new Map();
 
 module.exports = (commandName, interaction, cooldownTime = 5000) => { 
@@ -12,7 +13,7 @@ module.exports = (commandName, interaction, cooldownTime = 5000) => {
         if (now < expirationTime) {
             return interaction.reply({ 
                 content: `<:error:1302169165905526805> クールダウン中です。あと ${((expirationTime - now) / 1000).toFixed(1)} 秒後に実行できます。`, 
-                ephemeral: true 
+                flags: MessageFlags.Ephemeral
             });
         }
     }
