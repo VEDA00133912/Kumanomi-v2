@@ -1,6 +1,6 @@
 const { ContextMenuCommandBuilder, ApplicationCommandType } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
-const contextMenuError = require('../../../error/slashcommand');
+const contextmenuError = require('../../../error/slashcommand');
 const { createEmbed } = require('../../lib/embed');
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
         embeds: [createEmbed(interaction).setDescription(`<@${targetUser.id}>**[のアイコン](${avatarURL})**`).setImage(avatarURL)],
       });
     } catch (error) {
-      contextMenuError(interaction.client, interaction, error);
+      contextmenuError(interaction.client, interaction, error);
     }
   },
 };

@@ -1,7 +1,7 @@
 const { EmbedBuilder, DiscordAPIError, Colors, MessageFlags } = require('discord.js');
 const config = require('../file/setting/config.json');
 
-module.exports = async function handleSlashCommandError(client, interaction, error) {
+module.exports = async function handleSlashcommandError(client, interaction, error) {
     const commandId = interaction.commandId; 
     const errorMessage = `<:error:1302169165905526805> </${interaction.commandName}:${commandId}> の実行中にエラーが発生しました。`;
 
