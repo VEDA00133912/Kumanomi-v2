@@ -1,4 +1,13 @@
 {
+  "name": "kumanomi-v2",
+  "version": "2.0.0",
+  "description": "くまのみBOTのver.2",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "りょう",
+  "license": "MIT",
   "dependencies": {
     "@napi-rs/canvas": "^0.1.65",
     "axios": "^1.7.9",
@@ -8,5 +17,13 @@
     "genhera": "^1.1.0",
     "init": "^0.1.2",
     "uuid": "^11.0.3"
-  }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VEDA00133912/Kumanomi-v2"
+  },
+  "homepage": "https://veda00133912.github.io/kumanomi-site/"
 }
