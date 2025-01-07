@@ -1,3 +1,5 @@
+const { MessageFlags } = require('discord.js');
+
 const invalidContentChecks = [
     { regex: /@everyone|@here/, error: '<:error:1299263288797827185> everyoneやhereを含めることはできません。' },
     { regex: /<@&\d+>|<@!\d+>|<@?\d+>/, error: '<:error:1299263288797827185> メンションを含めることはできません。' },
@@ -6,17 +8,16 @@ const invalidContentChecks = [
     { regex: /[\w-]{24}\.[\w-]{6}\.[\w-]{27}/, error: '<:error:1299263288797827185> トークンを含めることはできません。' },
     { regex: /\|{4,}/, error: '<:error:1299263288797827185> 連続するスポイラーを含めることはできません。' },
     { regex: /(discord\.com|discord\.gg|invite|https|http)/i, error: '<:error:1299263288797827185> リンクを送信することはできません。' }
-  ];
-  
-  const validateMessageContent = async (interaction, message, commandName) => {
+];
+
+const validateMessageContent = async (interaction, message) => {
     for (const { regex, error } of invalidContentChecks) {
-      if (regex.test(message)) {
-        const replyMethod = commandName === 'spoofing' ? 'editReply' : 'reply';
-        await interaction[replyMethod]({ content: error, ephemeral: commandName !== 'spoofing' });
-        return true;
-      }
+        if (regex.test(message)) {
+            await interaction.reply({ content: error, flags: MessageFlags.Ephemeral });
+            return true;
+        }
     }
     return false;
-  };
-  
-  module.exports = { validateMessageContent };  
+};
+
+module.exports = { validateMessageContent };
