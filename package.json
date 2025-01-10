@@ -15,7 +15,7 @@
     "discord.js": "^14.17.2",
     "dotenv": "^16.4.7",
     "genhera": "^1.1.0",
-    "init": "^0.1.2",
+    "jszip": "^3.10.1",
     "uuid": "^11.0.3"
   },
   "engines": {
@@ -23,7 +23,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/VEDA00133912/Kumanomi-v2"
+    "url": "git+https://github.com/VEDA00133912/Kumanomi-v2.git"
   },
   "homepage": "https://veda00133912.github.io/kumanomi-site/"
 }
