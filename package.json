@@ -16,6 +16,7 @@
     "dotenv": "^16.4.7",
     "genhera": "^1.1.0",
     "jszip": "^3.10.1",
+    "makeitaquote": "^8.1.1",
     "uuid": "^11.0.3"
   },
   "engines": {
