@@ -22,9 +22,5 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/VEDA00133912/Kumanomi-v2.git"
-  },
   "homepage": "https://veda00133912.github.io/kumanomi-site/"
 }
