@@ -11,10 +11,8 @@
   "dependencies": {
     "@napi-rs/canvas": "^0.1.65",
     "axios": "^1.7.9",
-    "cjp": "^2.3.1",
     "discord.js": "^14.17.2",
     "dotenv": "^16.4.7",
-    "genhera": "^1.1.0",
     "jszip": "^3.10.1",
     "makeitaquote": "^8.1.1",
     "uuid": "^11.0.3"

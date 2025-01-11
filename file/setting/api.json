@@ -1,7 +1,4 @@
 {
-    "gaster_API": "https://api-7h8v.onrender.com/gaster",
-    "rune_API": "https://api-7h8v.onrender.com/rune",
-    "randomSongs_API": "https://api-7h8v.onrender.com/randomsongs",
-    "miq_API": "https://api.voids.top/fakequote",
+    "main_API": "https://api-7h8v.onrender.com",
     "5000choyen_API": "https://gsapi.cbrx.io/image"
 }

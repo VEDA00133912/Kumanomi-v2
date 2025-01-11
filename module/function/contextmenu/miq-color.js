@@ -6,7 +6,7 @@ const { createEmbed } = require('../../lib/embed');
 
 module.exports = {
   data: new ContextMenuCommandBuilder()
-    .setName('Make it a Quote')
+    .setName('Make it a Quote(color)')
     .setType(ApplicationCommandType.Message),
 
   async execute(interaction) {
