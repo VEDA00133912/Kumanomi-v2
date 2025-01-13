@@ -2,7 +2,7 @@ const { SlashCommandBuilder } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
 const slashcommandError = require('../../../error/slashcommand');
 const { createEmbed } = require('../../lib/embed');
-const apiConfig = require('../../../file/setting/api.json');
+const urlConfig = require('../../../file/setting/url.json');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -17,7 +17,7 @@ module.exports = {
     try {
       await interaction.deferReply();
       const [top, bottom] = [interaction.options.getString('top'), interaction.options.getString('bottom')];
-      const embed = createEmbed(interaction).setImage(`${apiConfig['5000choyen_API']}?top=${encodeURIComponent(top)}&bottom=${encodeURIComponent(bottom)}&type=png`);
+      const embed = createEmbed(interaction).setImage(`${urlConfig['5000choyen_API']}?top=${encodeURIComponent(top)}&bottom=${encodeURIComponent(bottom)}&type=png`);
       await interaction.editReply({ embeds: [embed] });
     } catch (error) {
       slashcommandError(interaction.client, interaction, error);

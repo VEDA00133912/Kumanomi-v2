@@ -1,5 +1,5 @@
 const axios = require('axios');
-const config = require('../../file/setting/api.json');
+const config = require('../../file/setting/url.json');
 
 async function convertText(type, text) {
   const conversionFunctions = {
