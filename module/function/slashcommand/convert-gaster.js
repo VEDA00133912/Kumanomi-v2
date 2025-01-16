@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, InteractionContextType, MessageFlags } = require('discord.js');
-const { convertToGaster } = require('../../lib/gaster');
+const { convertText } = require('../../lib/convert');
 const { createEmbed } = require('../../lib/embed');
 const slashcommandError = require('../../../error/slashcommand');
 const cooldown = require('../../event/other/cooldown');
@@ -16,7 +16,7 @@ module.exports = {
         .setDescription('変換するテキスト (英数字+記号のみ対応)')
         .setRequired(true)
         .setMinLength(1)
-        .setMaxLength(400)
+        .setMaxLength(200)
     ),
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
@@ -25,14 +25,10 @@ module.exports = {
 
     try {
       const inputText = interaction.options.getString('text');
-      const gasterText = await convertToGaster(inputText);
+      const gasterText = await convertText('gaster', inputText);
 
       const embed = createEmbed(interaction)
-        .setDescription('**ガスター語 変換結果**')
-        .addFields({
-          name: '変換後',
-          value: gasterText ? gasterText : '変換できませんでした。',
-        });
+             .setDescription(gasterText ? gasterText : '変換できませんでした。')
 
       await interaction.editReply({ embeds: [embed] });
 

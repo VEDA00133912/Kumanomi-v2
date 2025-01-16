@@ -1,17 +1,26 @@
 const { REST, Routes } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
-const configData = require('../../../file/setting/config.json'); 
+const configData = require('../../../file/setting/config.json');
 require('dotenv').config();
 
 const commands = [];
 
 const loadCommands = (dir) => {
-  const commandFiles = fs.readdirSync(path.join(__dirname, '..', '..', 'function', dir))
-    .filter(file => file.endsWith('.js'))
-    .map(file => require(path.join(__dirname, '..', '..', 'function', dir, file)).data.toJSON());
-  
-  commands.push(...commandFiles);
+  const readDirRecursive = (directory) => {
+    const files = fs.readdirSync(directory);
+    files.forEach(file => {
+      const fullPath = path.join(directory, file);
+      if (fs.statSync(fullPath).isDirectory()) {
+        readDirRecursive(fullPath);
+      } else if (file.endsWith('.js')) {
+        commands.push(require(fullPath).data.toJSON());
+      }
+    });
+  };
+
+  const commandDir = path.join(__dirname, '..', '..', 'function', dir);
+  readDirRecursive(commandDir);
 };
 
 loadCommands('slashcommand');

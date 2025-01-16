@@ -1,6 +1,6 @@
 const { ContextMenuCommandBuilder, ApplicationCommandType } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
-const contextmenuError = require('../../../error/slashcommand');
+const contextmenuError = require('../../../error/contextmenu');
 const { createEmbed } = require('../../lib/embed');
 
 module.exports = {

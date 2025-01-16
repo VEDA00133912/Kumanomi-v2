@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { gaster_API } = require('../../file/setting/api.json');  
+const { gaster_API } = require('../../file/setting/url.json');  
 
 async function convertToGaster(inputText) {
     if (!inputText?.trim()) throw new Error('変換する有効な文字列が必要です');

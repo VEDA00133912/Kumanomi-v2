@@ -11,19 +11,16 @@
   "dependencies": {
     "@napi-rs/canvas": "^0.1.65",
     "axios": "^1.7.9",
-    "cjp": "^2.3.1",
+    "cheerio": "^1.0.0",
     "discord.js": "^14.17.2",
     "dotenv": "^16.4.7",
-    "genhera": "^1.1.0",
     "jszip": "^3.10.1",
+    "makeitaquote": "^8.1.1",
+    "mongoose": "^8.9.5",
     "uuid": "^11.0.3"
   },
   "engines": {
     "node": ">=18.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/VEDA00133912/Kumanomi-v2.git"
   },
   "homepage": "https://veda00133912.github.io/kumanomi-site/"
 }
