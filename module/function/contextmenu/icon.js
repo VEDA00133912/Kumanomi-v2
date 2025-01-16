@@ -6,8 +6,7 @@ const { createEmbed } = require('../../lib/embed');
 module.exports = {
   data: new ContextMenuCommandBuilder()
     .setName('アイコン表示')
-    .setType(ApplicationCommandType.User)
-    .setIntegrationTypes(0,1),
+    .setType(ApplicationCommandType.User),
 
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
