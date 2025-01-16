@@ -5,8 +5,8 @@ const Settings = require('../../../../file/setting/mongodb');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('expand-settings')
-        .setDescription('メッセージリンクの展開をオンまたはオフにします。')
+        .setName('setting-expand')
+        .setDescription('メッセージリンクの展開のオンオフ設定をします')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setContexts(InteractionContextType.Guild)
         .setIntegrationTypes(0)

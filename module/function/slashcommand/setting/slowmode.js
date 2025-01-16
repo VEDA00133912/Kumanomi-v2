@@ -6,8 +6,8 @@ const { createEmbed } = require('../../../lib/embed');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('slowmode')
-        .setDescription('低速モードを設定します')
+        .setName('setting-slowmode')
+        .setDescription('低速モードの設定をします')
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
         .setContexts(InteractionContextType.Guild)
         .addIntegerOption(option =>
