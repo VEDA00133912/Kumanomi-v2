@@ -7,13 +7,10 @@ const { validateMessageContent } = require('../../lib/invalidContent');
 module.exports = {
   data: new ContextMenuCommandBuilder()
     .setName('突然の死ジェネレーター')
-    .setType(ApplicationCommandType.Message)
-    .setIntegrationTypes(0, 1),
+    .setType(ApplicationCommandType.Message),
 
   async execute(interaction) {
-    const commandName = this.data.name;
-    if (cooldown(commandName, interaction)) return;
-
+    if (cooldown(this.data.name, interaction)) return;
     const targetMessage = interaction.targetMessage;
 
     if (!targetMessage.content) {
