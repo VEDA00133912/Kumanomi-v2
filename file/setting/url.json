@@ -3,5 +3,6 @@
     "5000choyen_API": "https://gsapi.cbrx.io/image",
     "npmURL": "https://registry.npmjs.org/",
     "yahooNewsURL": "https://www.yahoo.co.jp/",
-    "translate_API": "https://script.google.com/macros/s/AKfycbyZzeACcCpM2PNgoYN1jg64CTzZcXCx-xYHp9WC6yNQYdrCmyYcER-_vR8A-D2Epvok_w/exec"
+    "translate_API": "https://script.google.com/macros/s/AKfycbyZzeACcCpM2PNgoYN1jg64CTzZcXCx-xYHp9WC6yNQYdrCmyYcER-_vR8A-D2Epvok_w/exec",
+    "qr_API": "https://api.qrserver.com/v1/create-qr-code/"
 }
