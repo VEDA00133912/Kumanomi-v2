@@ -1,8 +1,8 @@
 const { SlashCommandBuilder, PermissionFlagsBits, InteractionContextType, MessageFlags, Colors } = require('discord.js');
-const cooldown = require('../../event/other/cooldown');
-const slashcommandError = require('../../../error/slashcommand');
-const { checkPermissions } = require('../../lib/permission');
-const { createEmbed } = require('../../lib/embed');
+const cooldown = require('../../../event/other/cooldown');
+const slashcommandError = require('../../../../error/slashcommand');
+const { checkPermissions } = require('../../../lib/permission');
+const { createEmbed } = require('../../../lib/embed');
 
 module.exports = {
     data: new SlashCommandBuilder()

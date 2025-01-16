@@ -1,9 +1,9 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const cooldown = require('../events/cooldown');
-const slashCommandError = require('../errors/slashCommandError'); 
-const { checkPermissions } = require('../../lib/permissions');
+const cooldown = require('../../event/other/cooldown');
+const slashCommandError = require('../../../error/slashcommand'); 
+const { checkPermissions } = require('../../lib/permission');
 const { yahooNewsURL } = require('../../../file/setting/url.json');
 
 module.exports = {

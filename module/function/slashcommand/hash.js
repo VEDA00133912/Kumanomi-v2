@@ -22,8 +22,10 @@ module.exports = {
       const text = interaction.options.getString('text');
       const hash = crypto.createHash('sha256').update(text).digest('hex');
 
+      const embed = createEmbed(interaction)
+      .setDescription(`ハッシュ化しました！\n\`\`\`${hash}\`\`\``)
       await interaction.editReply({
-        embeds: [createEmbed(interaction).setDescription(`ハッシュ化しました！\n\`\`\`${hash}\`\`\``)],
+        embeds: [embed],
       });
     } catch (error) {
       slashcommandError(interaction.client, interaction, error);

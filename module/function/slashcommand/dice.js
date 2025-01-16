@@ -16,7 +16,7 @@ module.exports = {
             option.setName('max')
                 .setDescription('サイコロの最大値を指定してください')
                 .setMinValue(1)
-                .setMaxValue(1000)),
+                .setMaxValue(500)),
 
     async execute(interaction) {
         try {
@@ -28,11 +28,9 @@ module.exports = {
             const max = interaction.options.getInteger('max') || 100;
 
             const results = Array.from({ length: count }, () => Math.floor(Math.random() * max) + 1);
-            const embed = createEmbed({
-                title: `🎲 ${count}d${max} Results`,
-                description: `**${results.join(', ')}**`,
-                color: 0x1a73e8,
-            });
+            const embed = createEmbed(interaction)
+            .setTitle(`🎲 ${count}d${max} Results`)
+            .setDescription(`**${results.join(', ')}**`);
 
             await interaction.editReply({ embeds: [embed] });
         } catch (error) {
