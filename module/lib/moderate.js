@@ -35,9 +35,9 @@ async function moderateUsers(interaction, users, action, reason, successColor, a
         .setTitle(`${actionVerb}結果`)
         .addFields(
             { name: '理由', value: reason },
-            { name: `${actionVerb}成功`, value: results.success.join('\n') || 'なし', inline: true },
-            { name: `${actionVerb}失敗`, value: results.failed.join('\n') || 'なし', inline: true },
-            { name: '不要', value: results.skipped.join('\n') || 'なし', inline: true }
+            { name: `${actionVerb}成功`, value: results.success.join('\n') || 'なし' },
+            { name: `${actionVerb}失敗`, value: results.failed.join('\n') || 'なし' },
+            { name: '不要', value: results.skipped.join('\n') || 'なし' }
         )
         .setFooter({ text: `Kumanomi | ${actionVerb}`, iconURL: interaction.client.user.displayAvatarURL() })
         .setTimestamp();
