@@ -5,8 +5,6 @@ async function convertText(type, text) {
   const conversionFunctions = {
     'rune': () => convertWithAPI('rune', text),
     'gaster': () => convertWithAPI('gaster', text),
-    'backword': () => text.split('').reverse().join(''),
-    'anagram': () => text.split('').sort(() => Math.random() - 0.5).join(''),
   };
 
   return conversionFunctions[type] ? await conversionFunctions[type]() : 'エラーが発生しました。';
