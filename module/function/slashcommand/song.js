@@ -1,6 +1,7 @@
 const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
 const slashcommandError = require('../../../error/slashcommand');
+const { checkPermissions } = require('../../lib/permission');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,6 +20,8 @@ module.exports = {
         const subcommand = interaction.options.getSubcommand();
         const commandName = `song ${subcommand}`;
         if (cooldown(commandName, interaction)) return;
+
+        if (await checkPermissions(interaction, [PermissionFlagsBits.EmbedLinks])) return;
 
         try {
             const urls = {
