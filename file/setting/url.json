@@ -4,5 +4,8 @@
     "npmURL": "https://registry.npmjs.org/",
     "yahooNewsURL": "https://www.yahoo.co.jp/",
     "translate_API": "https://script.google.com/macros/s/AKfycbyZzeACcCpM2PNgoYN1jg64CTzZcXCx-xYHp9WC6yNQYdrCmyYcER-_vR8A-D2Epvok_w/exec",
-    "qr_API": "https://api.qrserver.com/v1/create-qr-code/"
+    "qr_API": "https://api.qrserver.com/v1/create-qr-code/",
+    "redirect_API": "https://ntool.online/api/",
+    "defaultIconUrl": "https://cdn.discordapp.com/embed/avatars/1.png",
+    "userflaggs_API": "https://japi.rest/discord/v1/user/"
 }

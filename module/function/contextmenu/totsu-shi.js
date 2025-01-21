@@ -3,6 +3,7 @@ const cooldown = require('../../event/other/cooldown');
 const contextMenuError = require('../../../error/contextmenu');
 const { generateTotsuShi } = require('../../lib/totsu-shi');
 const { validateMessageContent } = require('../../lib/invalidContent');
+const { checkMessageContent } = require('../../lib/content');
 
 module.exports = {
   data: new ContextMenuCommandBuilder()
@@ -12,12 +13,13 @@ module.exports = {
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
     const targetMessage = interaction.targetMessage;
-
-    if (!targetMessage.content) {
-      return await interaction.reply({
-        content: '<:error:1302169165905526805> テキストメッセージではありません',
-        flags: MessageFlags.Ephemeral,
+    const issues = checkMessageContent(targetMessage);
+    if (issues.length > 0) {
+      await interaction.reply({
+        content: `**生成できませんでした**\n生成失敗理由\n- ${issues.join('\n- ')}`,
+        flags: MessageFlags.Ephemeral, 
       });
+      return;
     }
 
     if (await validateMessageContent(interaction, targetMessage.content)) return;

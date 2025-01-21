@@ -41,16 +41,16 @@ async function checkPermissions(interaction, requiredPermissions) {
 
     if (missingMemberPerms.length || missingBotPerms.length) {
         const missingPermsText = (missingMemberPerms.length
-            ? `- あなたに必要な権限\n\`\`\`\n${missingMemberPerms.map(perm => permissionNames[perm] || perm).join('\n')}\n\`\`\``
+            ? `- あなたに不足している権限\n\`\`\`\n${missingMemberPerms.map(perm => permissionNames[perm] || perm).join('\n')}\n\`\`\``
             : '') + 
             (missingBotPerms.length
-                ? `- BOTに必要な権限\n\`\`\`\n${missingBotPerms.map(perm => permissionNames[perm] || perm).join('\n')}\n\`\`\``
+                ? `- BOTに不足している権限\n\`\`\`\n${missingBotPerms.map(perm => permissionNames[perm] || perm).join('\n')}\n\`\`\``
                 : '');
 
         const missingPermsEmbed = new EmbedBuilder()
             .setColor('Red')
             .setTitle('<:error:1302169165905526805> 権限エラー')
-            .setDescription(`権限が不足しているため、この操作を実行できません。\n${missingPermsText}`)
+            .setDescription(`このコマンドを実行できません\n${missingPermsText}`)
             .setFooter({ text: 'Kumanomi | PermissionsError' })
             .setTimestamp();
 

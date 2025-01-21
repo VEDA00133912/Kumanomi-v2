@@ -4,6 +4,7 @@ const { validateMessageContent } = require('../../lib/invalidContent');
 const { createEmbed } = require('../../lib/embed');
 const contextmenuError = require('../../../error/contextmenu');
 const cooldown = require('../../event/other/cooldown');
+const { checkMessageContent } = require('../../lib/content');
 
 module.exports = {
   data: new ContextMenuCommandBuilder()
@@ -12,12 +13,22 @@ module.exports = {
 
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
-    const text = interaction.targetMessage.content; 
-    if (await validateMessageContent(interaction, text)) return; 
+    
+    const targetMessage = interaction.targetMessage;
+    const issues = checkMessageContent(targetMessage);
+    if (issues.length > 0) {
+      await interaction.reply({
+        content: `**翻訳できませんでした**\n翻訳失敗理由\n- ${issues.join('\n- ')}`,
+        flags: MessageFlags.Ephemeral, 
+      });
+      return;
+    }
+
+    if (await validateMessageContent(interaction, targetMessage.content)) return; 
 
     try {
       await interaction.deferReply();  
-      const translatedText = await translater(text, '', 'en');  
+      const translatedText = await translater(targetMessage.content, '', 'en');  
       const embed = createEmbed(interaction)
         .setDescription(`**翻訳しました！**\n\`\`\`\n${translatedText}\n\`\`\``);
 
