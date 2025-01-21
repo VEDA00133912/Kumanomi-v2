@@ -1,8 +1,9 @@
-const { ApplicationCommandType, ContextMenuCommandBuilder, AttachmentBuilder } = require('discord.js');
+const { ApplicationCommandType, ContextMenuCommandBuilder, AttachmentBuilder, MessageFlags } = require('discord.js');
 const { MiQ } = require('makeitaquote');
 const cooldown = require('../../event/other/cooldown');
 const contextmenuError = require('../../../error/contextmenu');
 const { createEmbed } = require('../../lib/embed');
+const { checkMessageContent } = require('../../lib/content');
 
 module.exports = {
   data: new ContextMenuCommandBuilder()
@@ -12,11 +13,21 @@ module.exports = {
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
 
+    const targetMessage = interaction.targetMessage;
+    const issues = checkMessageContent(targetMessage);
+    if (issues.length > 0) {
+      await interaction.reply({
+        content: `**Make it a Quoteを生成できませんでした**\n生成失敗理由\n- ${issues.join('\n- ')}`,
+        flags: MessageFlags.Ephemeral, 
+      });
+      return;
+    }
+
     await interaction.deferReply();
-        const msg = interaction.targetMessage;
-        const miq = new MiQ()
-        .setFromMessage(msg)
-        .setWatermark(interaction.client.user.username);
+
+    const miq = new MiQ()
+      .setFromMessage(targetMessage)
+      .setWatermark(interaction.client.user.username);
 
     try {
       const response = await miq.generateBeta();
