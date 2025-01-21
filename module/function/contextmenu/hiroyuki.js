@@ -11,8 +11,6 @@ module.exports = {
 
   async execute(interaction) {
         if (cooldown(this.data.name, interaction)) return;
-        const requiredPermissions = [ PermissionFlagsBits.AttachFiles ];
-        if (await checkPermissions(interaction, requiredPermissions)) return;
 
     const messageContent = interaction.targetMessage.content;
     if (messageContent.length > 1000) {

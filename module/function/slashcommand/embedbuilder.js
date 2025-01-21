@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, InteractionContextType } = require('discord.js');
 const slashcommandError = require('../../../error/slashcommand');
+const cooldown = require('../../event/other/cooldown');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -10,6 +11,7 @@ module.exports = {
 
   async execute(interaction) {
     try {
+      if (cooldown(this.data.name, interaction)) return;
       const modal = new ModalBuilder()
         .setCustomId('createEmbedModal')
         .setTitle('埋め込みを作成します');

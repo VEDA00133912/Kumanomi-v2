@@ -1,39 +1,33 @@
 const { SlashCommandBuilder, InteractionContextType, MessageFlags } = require('discord.js');
-const { downloadEmojisToZip } = require('../../lib/emozip');
-const cooldown = require('../../event/other/cooldown');
+const emojiZip = require('../../lib/emozip');  
 const slashcommandError = require('../../../error/slashcommand');
-const fs = require('fs');
-const path = require('path');
+const cooldown = require('../../event/other/cooldown');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('emozip')
+    .setName('getemoji')
     .setDescription('サーバーの絵文字をZIPファイルとしてダウンロードします')
     .setContexts(InteractionContextType.Guild)
     .setIntegrationTypes(0),
-  
+
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     try {
-      const emojis = interaction.guild.emojis.cache;
+      const zipFilePath = await emojiZip.createEmojiZip(interaction.guild);  
 
-      if (emojis.size === 0) {
-        return interaction.editReply({ content: '<:error:1302169165905526805> このサーバーには絵文字がありません', flags: MessageFlags.Ephemeral });
+      if (!zipFilePath) {
+        return interaction.editReply('絵文字のダウンロード中にエラーが発生しました');
       }
 
-      const file = await downloadEmojisToZip(interaction.guild, emojis);
-
       await interaction.editReply({
-        content: `${interaction.guild.name}内の絵文字をzipに変換しました`,
-        files: [file],
+        content: 'サーバー内の絵文字をzipに変換しました',
+        files: [{ attachment: zipFilePath, name: `${interaction.guild.name}-Emoji.zip` }],
       });
-
-      fs.unlinkSync(file);
 
     } catch (error) {
       slashcommandError(interaction.client, interaction, error);
     }
-  }
+  },
 };

@@ -18,9 +18,6 @@ module.exports = {
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
       
-      const requiredPermissions = [ PermissionFlagsBits.AttachFiles ];
-      if (await checkPermissions(interaction, requiredPermissions)) return;
-      
     const text = interaction.options.getString('text');
     await interaction.reply({ content: '<a:hiroyuki:1331096942398410893> 生成中...', flags: MessageFlags.Ephemeral });
 
