@@ -6,12 +6,12 @@ module.exports = {
   async execute(message) {
     if (message.author.bot || !message.content.startsWith(config.prefix + 'leave')) return;
 
-    if (message.author.id !== '1095869643106828289') {
-      return message.reply('<:error:1302169165905526805> このコマンドを実行する権限がありません。');
+    if (message.author.id !== config.ownerId) {
+      return message.reply('<:error:1302169165905526805> このコマンドを実行する権限がありません');
     }
 
     const [_, guildId] = message.content.split(' ');
-    if (!guildId) return message.reply('<:error:1302169165905526805> サーバーIDを指定してください。');
+    if (!guildId) return message.reply('<:error:1302169165905526805> サーバーIDを指定してください');
 
     const guild = message.client.guilds.cache.get(guildId);
     if (!guild) return message.reply(`<:error:1302169165905526805> ${guildId} のサーバーが見つかりませんでした`);
