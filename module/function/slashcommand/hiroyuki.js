@@ -18,7 +18,7 @@ module.exports = {
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
       
-      const requiredPermissions = [ PermissionFlagsBits.SendMessages, PermissionFlagsBits.AttachFiles ];
+      const requiredPermissions = [ PermissionFlagsBits.AttachFiles ];
       if (await checkPermissions(interaction, requiredPermissions)) return;
       
     const text = interaction.options.getString('text');
