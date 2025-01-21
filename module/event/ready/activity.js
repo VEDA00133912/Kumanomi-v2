@@ -14,7 +14,7 @@ module.exports = {
       } else {
         const serverCount = client.guilds.cache.size;
         const memberCount = client.guilds.cache.reduce((acc, guild) => acc + guild.memberCount, 0);
-        client.user.setActivity(`${serverCount} Server || ${memberCount} Members`, {
+        client.user.setActivity(`${serverCount} Server | ${memberCount} Members`, {
           type: ActivityType.Watching,
         });
       }
@@ -23,7 +23,7 @@ module.exports = {
     };
 
     updateActivity();
-    setInterval(updateActivity, 30000);
+    setInterval(updateActivity, 5000);
 
     console.log('Activity setup is complete');
   },
