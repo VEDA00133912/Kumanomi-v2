@@ -16,7 +16,6 @@ module.exports = {
 
     try {
       const requiredPermissions = [
-        PermissionFlagsBits.ViewChannel,
         PermissionFlagsBits.ReadMessageHistory,
       ];
 

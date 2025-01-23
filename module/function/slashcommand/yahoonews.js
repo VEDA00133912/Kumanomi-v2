@@ -2,9 +2,9 @@ const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const axios = require('axios');
 const cheerio = require('cheerio');
 const cooldown = require('../../event/other/cooldown');
-const slashCommandError = require('../../../error/slashcommand'); 
+const slashcommandError = require('../../../error/slashcommand'); 
 const { checkPermissions } = require('../../lib/permission');
-const { yahooNewsURL } = require('../../../file/setting/url.json');
+const config = require('../../../file/setting/url.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -19,7 +19,7 @@ module.exports = {
         await interaction.deferReply();
 
         try {
-            const response = await axios.get(yahooNewsURL);
+            const response = await axios.get(config.yahooNewsURL);
             const $ = cheerio.load(response.data);
             const newsLinks = $('a[href*="news.yahoo.co.jp/pickup"]')
                 .map((_, el) => $(el).attr('href'))
@@ -31,7 +31,7 @@ module.exports = {
 
             await interaction.editReply({ content: replyContent });
         } catch (error) {
-            slashCommandError(interaction.client, interaction, error);
+            slashcommandError(interaction.client, interaction, error);
         }
     }
 };
