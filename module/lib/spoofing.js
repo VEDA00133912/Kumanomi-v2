@@ -6,7 +6,6 @@ async function getWebhookClient(channel, targetUser) {
   let webhookURL;
 
   try {
-    console.log(`Fetching webhook for channel: ${channel.id}`);
     const webhookData = await Webhook.findOne({ channelId: channel.id });
 
     if (webhookData) {
