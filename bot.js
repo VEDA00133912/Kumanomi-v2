@@ -3,7 +3,6 @@ const { loadCommands, loadAdminCommands, loadEvents } = require('./module/event/
 const setupGlobalErrorHandling = require('./error/global');
 const path = require('path');
 require('dotenv').config();
-const TOKEN = process.env.DISCORD_TOKEN;
 
 const client = new Client(
     { 
@@ -27,4 +26,4 @@ loadAdminCommands(client, path.join(__dirname, 'module/function/admin'));
 loadEvents(client, path.join(__dirname, 'module/event'));
 
 setupGlobalErrorHandling(client);
-client.login(TOKEN);
+client.login(process.env.TOKEN);

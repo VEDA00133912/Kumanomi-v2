@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, InteractionContextType, AttachmentBuilder, ApplicationIntegrationType } = require('discord.js');
-const { generateMeme } = require('../../lib/canvas');
+const { generateMeme, generateNews } = require('../../lib/canvas');
 const cooldown = require('../../event/other/cooldown');
 const slashcommandError = require('../../../error/slashcommand');
 const { createEmbed } = require('../../lib/embed');
@@ -20,7 +20,8 @@ module.exports = {
         .setDescription('画像効果を選択してください')
         .setRequired(true)
         .addChoices(
-          { name: '顔の良さでなんとかなると思っているジェネレータ', value: 'meme' }
+          { name: '顔の良さでなんとかなると思っているジェネレータ', value: 'meme' },
+          { name: 'ジェネレータ', value: 'news' }
         )
     ),
 
@@ -40,23 +41,29 @@ module.exports = {
         return;
       }
 
+      let processedImageBuffer;
+
       if (effect === 'meme') {
-        const memeBuffer = await generateMeme(attachment.url);
-        const memeAttachment = new AttachmentBuilder(memeBuffer, { name: 'kaoyoshi.png' });
-
-        const embed = createEmbed(interaction)
-          .setDescription('完成！')
-          .setImage('attachment://kaoyoshi.png');
-
-        await interaction.editReply({
-          embeds: [embed],
-          files: [memeAttachment],  
-        });
+        processedImageBuffer = await generateMeme(attachment.url);
+      } else if (effect === 'news') {
+        processedImageBuffer = await generateNews(attachment.url);
       } else {
         await interaction.editReply({
           content: '<:error:1302169165905526805> 無効な効果が選択されました。',
         });
+        return;
       }
+
+      const processedImageAttachment = new AttachmentBuilder(processedImageBuffer, { name: effect === 'meme' ? 'kaoyoshi.png' : 'news.png' });
+
+      const embed = createEmbed(interaction)
+        .setDescription('完成！')
+        .setImage(`attachment://${effect === 'meme' ? 'kaoyoshi.png' : 'news.png'}`);
+
+      await interaction.editReply({
+        embeds: [embed],
+        files: [processedImageAttachment],  
+      });
     } catch (error) {
       slashcommandError(error, interaction);
     }
