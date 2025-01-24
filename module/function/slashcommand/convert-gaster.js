@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, InteractionContextType, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, MessageFlags, ApplicationIntegrationType } = require('discord.js');
 const { convertText } = require('../../lib/convert');
 const { createEmbed } = require('../../lib/embed');
 const slashcommandError = require('../../../error/slashcommand');
@@ -9,7 +9,7 @@ module.exports = {
     .setName('gaster')
     .setDescription('ガスター語に変換')
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(0)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
     .addStringOption(option =>
       option
         .setName('text')

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, InteractionContextType } = require('discord.js');
+const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const slashcommandError = require('../../../error/slashcommand');
 const cooldown = require('../../event/other/cooldown');
 
@@ -7,7 +7,7 @@ module.exports = {
     .setName('embedbuilder')
     .setDescription('埋め込みメッセージを作成します')
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(0),
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
 
   async execute(interaction) {
     try {

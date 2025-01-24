@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, InteractionContextType, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, MessageFlags, ApplicationIntegrationType } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
 const slashcommandError = require('../../../error/slashcommand');
 const { createEmbed } = require('../../lib/embed');
@@ -12,7 +12,7 @@ module.exports = {
     .setName('info')
     .setDescription('情報を表示します')
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(0)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
     .addSubcommand(subcommand =>
       subcommand
         .setName('user')
@@ -96,7 +96,7 @@ module.exports = {
         }
 
         await interaction.editReply({ embeds: [embed] });
-      }　else if (subcommand === 'system') {
+      } else if (subcommand === 'system') {
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
           const { uptime, freemem, totalmem, cpus, arch } = getSystemInfo();
 

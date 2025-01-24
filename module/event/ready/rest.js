@@ -25,6 +25,7 @@ const loadCommands = (dir) => {
 
 loadCommands('slashcommand');
 loadCommands('contextmenu');
+loadCommands('userinstall');
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 

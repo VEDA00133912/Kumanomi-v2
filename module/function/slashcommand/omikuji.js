@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const { getRandomFortune, specialFortune } = require('../../lib/omikuji');
 const { createEmbed } = require('../../lib/embed');
 const cooldown = require('../../event/other/cooldown');
@@ -9,7 +9,9 @@ const specialThumbnailPath = path.join(__dirname, '../../data/assets/special.png
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('omikuji')
-        .setDescription('おみくじを引けます'),
+        .setDescription('おみくじを引けます')
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
 
     async execute(interaction) {
         if (cooldown(this.data.name, interaction)) return;

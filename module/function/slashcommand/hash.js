@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const crypto = require('crypto');
 const cooldown = require('../../event/other/cooldown');
 const slashcommandError = require('../../../error/slashcommand');
@@ -7,6 +7,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('hash')
     .setDescription('テキストをハッシュ化します')
+    .setContexts(InteractionContextType.Guild)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)    
     .addStringOption(option =>
       option.setName('text')
         .setDescription('ハッシュ化したいテキスト')

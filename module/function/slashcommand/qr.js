@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
 const slashcommandError = require('../../../error/slashcommand');
 const { createEmbed } = require('../../lib/embed');
@@ -9,6 +9,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('qr')
     .setDescription('QRコードの生成を行います')
+    .setContexts(InteractionContextType.Guild)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
     .addStringOption(option =>
       option.setName('url')
         .setDescription('QRに変換したいURLを入力してください')

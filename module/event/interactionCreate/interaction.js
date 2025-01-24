@@ -6,9 +6,11 @@ module.exports = {
     async execute(interaction, client) {
         if (interaction.isCommand()) {
             try {
-                const permissionErrorEmbed = await checkPermissions(interaction);
-                if (permissionErrorEmbed) {
-                    return interaction.reply({ embeds: [permissionErrorEmbed], flags: MessageFlags.Ephemeral });
+                if (interaction.guild) {
+                    const permissionErrorEmbed = await checkPermissions(interaction);
+                    if (permissionErrorEmbed) {
+                        return interaction.reply({ embeds: [permissionErrorEmbed], flags: MessageFlags.Ephemeral });
+                    }
                 }
 
                 const command = client.commands.get(interaction.commandName);
@@ -16,14 +18,15 @@ module.exports = {
                 await command.execute(interaction, client);
             } catch (error) {
                 interactionError(client, interaction, error);
-                interaction.channel.send('<:error:1302169165905526805> コマンド実行中にエラーが発生しました');
-
+                interaction.channel?.reply('<:error:1302169165905526805> コマンド実行中にエラーが発生しました');
             }
         } else if (interaction.isContextMenuCommand()) {
             try {
-                const permissionErrorEmbed = await checkPermissions(interaction);
-                if (permissionErrorEmbed) {
-                    return interaction.reply({ embeds: [permissionErrorEmbed], flags: MessageFlags.Ephemeral });
+                if (interaction.guild) {
+                    const permissionErrorEmbed = await checkPermissions(interaction);
+                    if (permissionErrorEmbed) {
+                        return interaction.reply({ embeds: [permissionErrorEmbed], flags: MessageFlags.Ephemeral });
+                    }
                 }
 
                 const command = client.commands.get(interaction.commandName);
@@ -31,24 +34,27 @@ module.exports = {
                 await command.execute(interaction, client);
             } catch (error) {
                 interactionError(client, interaction, error);
-                interaction.channel.send('<:error:1302169165905526805> コマンド実行中にエラーが発生しました')
+                interaction.channel?.reply('<:error:1302169165905526805> コマンド実行中にエラーが発生しました');
             }
         }
     },
 };
 
 async function checkPermissions(interaction) {
-
     const missingServerPermissions = [];
-    if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.SendMessages)) {
+    const missingChannelPermissions = [];
+
+    // サーバー権限のチェック
+    const botMember = interaction.guild.members.me;
+    if (!botMember.permissions.has(PermissionsBitField.Flags.SendMessages)) {
         missingServerPermissions.push('・メッセージの送信');
     }
-    if (!interaction.guild.members.me.permissions.has(PermissionsBitField.Flags.ViewChannel)) {
+    if (!botMember.permissions.has(PermissionsBitField.Flags.ViewChannel)) {
         missingServerPermissions.push('・チャンネルを見る');
     }
 
-    const missingChannelPermissions = [];
-    const channelPermissions = interaction.channel.permissionsFor(interaction.guild.members.me);
+    // チャンネル権限のチェック
+    const channelPermissions = interaction.channel.permissionsFor(botMember);
     if (!channelPermissions.has(PermissionsBitField.Flags.SendMessages)) {
         missingChannelPermissions.push('・メッセージの送信');
     }
@@ -56,29 +62,30 @@ async function checkPermissions(interaction) {
         missingChannelPermissions.push('・チャンネルを見る');
     }
 
+    // エラーメッセージの作成
     if (missingServerPermissions.length > 0 || missingChannelPermissions.length > 0) {
         const errorEmbed = new EmbedBuilder()
             .setColor(Colors.Red)
             .setDescription('<:error:1302169165905526805> BOTに権限が不足しています')
-            .setFooter({ text: 'Kumanomi | PermError', iconURL: interaction.client.user.displayAvatarURL()})
+            .setFooter({ text: 'Kumanomi | PermError', iconURL: interaction.client.user.displayAvatarURL() })
             .setTimestamp();
 
-            if (missingServerPermissions.length > 0) {
-                errorEmbed.addFields({
-                    name: 'サーバー権限',
-                    value: `\`\`\`${missingServerPermissions.join('\n')}\`\`\``,
-                });
-            }
-    
-            if (missingChannelPermissions.length > 0) {
-                errorEmbed.addFields({
-                    name: 'チャンネル権限',
-                    value: `\`\`\`${missingChannelPermissions.join('\n')}\`\`\``,
-                });
-            }
+        if (missingServerPermissions.length > 0) {
+            errorEmbed.addFields({
+                name: 'サーバー権限',
+                value: `\`\`\`${missingServerPermissions.join('\n')}\`\`\``,
+            });
+        }
+
+        if (missingChannelPermissions.length > 0) {
+            errorEmbed.addFields({
+                name: 'チャンネル権限',
+                value: `\`\`\`${missingChannelPermissions.join('\n')}\`\`\``,
+            });
+        }
 
         return errorEmbed;
     }
 
-    return null; 
+    return null;
 }

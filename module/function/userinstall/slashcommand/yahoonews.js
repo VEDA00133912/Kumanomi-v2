@@ -1,22 +1,19 @@
-const { SlashCommandBuilder, PermissionFlagsBits, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const cooldown = require('../../event/other/cooldown');
-const slashcommandError = require('../../../error/slashcommand'); 
-const { checkPermissions } = require('../../lib/permission');
-const config = require('../../../file/setting/url.json');
+const cooldown = require('../../../event/other/cooldown');
+const slashcommandError = require('../../../../error/slashcommand'); 
+const config = require('../../../../file/setting/url.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
-        .setName('yahoonews')
+        .setName('user-yahoonews')
         .setDescription('Yahooニュースリンクを送信します')
         .setContexts(InteractionContextType.Guild)
-        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
+        .setIntegrationTypes(ApplicationIntegrationType.UserInstall),
 
     async execute(interaction) {
         if (cooldown(this.data.name, interaction)) return;
-
-        if (await checkPermissions(interaction, [PermissionFlagsBits.EmbedLinks])) return;
 
         await interaction.deferReply();
 

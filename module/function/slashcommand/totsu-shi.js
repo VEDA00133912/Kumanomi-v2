@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
 const { generateTotsuShi } = require('../../lib/totsu-shi');
 const { validateMessageContent } = require('../../lib/invalidContent');
@@ -8,6 +8,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('totsu-shi')
     .setDescription('突然の死ジェネレーターです')
+    .setContexts(InteractionContextType.Guild)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
     .addStringOption(option =>
       option.setName('content')
         .setDescription('生成する内容')

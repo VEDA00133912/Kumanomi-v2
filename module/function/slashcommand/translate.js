@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const { translater } = require('../../lib/translate');
 const { validateMessageContent } = require('../../lib/invalidContent');
 const { createEmbed } = require('../../lib/embed');
@@ -9,6 +9,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('translate')
     .setDescription('他言語への翻訳をします')
+    .setContexts(InteractionContextType.Guild)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
     .addStringOption(option =>
       option.setName('text')
         .setDescription('翻訳したいテキストを入力してください')

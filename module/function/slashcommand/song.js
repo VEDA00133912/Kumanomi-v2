@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
 const slashcommandError = require('../../../error/slashcommand');
 const { checkPermissions } = require('../../lib/permission');
@@ -7,6 +7,8 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('song')
         .setDescription('癖になる')
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
         .addSubcommand(subcommand => subcommand
             .setName('kongyo')
             .setDescription('『コンギョ』のリンク')

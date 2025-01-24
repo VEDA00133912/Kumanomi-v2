@@ -1,4 +1,4 @@
-const { ApplicationCommandType, ContextMenuCommandBuilder } = require('discord.js');
+const { ApplicationCommandType, ContextMenuCommandBuilder, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const { translater } = require('../../lib/translate');  
 const { validateMessageContent } = require('../../lib/invalidContent'); 
 const { createEmbed } = require('../../lib/embed');
@@ -9,7 +9,9 @@ const { checkMessageContent } = require('../../lib/content');
 module.exports = {
   data: new ContextMenuCommandBuilder()
     .setName('日本語に翻訳')
-    .setType(ApplicationCommandType.Message),
+    .setType(ApplicationCommandType.Message)
+    .setContexts(InteractionContextType.Guild)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall),
 
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;

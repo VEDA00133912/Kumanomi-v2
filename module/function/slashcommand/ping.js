@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, InteractionContextType } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
 const slashcommandError = require('../../../error/slashcommand');
 const { createEmbed } = require('../../lib/embed');
@@ -8,7 +8,7 @@ module.exports = {
     .setName('ping')
     .setDescription('Ping値を測定します。')
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(0),
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
 
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;

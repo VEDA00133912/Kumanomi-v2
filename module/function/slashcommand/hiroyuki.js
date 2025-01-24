@@ -1,13 +1,13 @@
-const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags, ApplicationIntegrationType, InteractionContextType } = require('discord.js');
 const { generateAudio, deleteAudioFile } = require('../../lib/hiroyuki');
 const cooldown = require('../../event/other/cooldown');
-const { checkPermissions } = require('../../lib/permission');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('hiroyuki')
     .setDescription('ひろゆきボイスのMP3に変換します')
-    .setIntegrationTypes(0,1)
+    .setContexts(InteractionContextType.Guild)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
     .addStringOption(option =>
       option.setName('text')
         .setDescription('ひろゆきに喋らせる内容')

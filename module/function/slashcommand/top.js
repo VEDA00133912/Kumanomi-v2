@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, InteractionContextType } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
 const slashcommandError = require('../../../error/slashcommand');
 const { createEmbed } = require('../../lib/embed');
@@ -9,7 +9,7 @@ module.exports = {
     .setName('top')
     .setDescription('チャンネル内の一番最初のメッセージを取得します')
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(0),
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
 
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
