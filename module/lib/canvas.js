@@ -2,11 +2,9 @@ const { createCanvas, loadImage } = require('@napi-rs/canvas');
 const fs = require('fs');
 const path = require('path');
 
-async function generateMeme(uploadedImageUrl) {
-  const overlayImagePath = path.resolve(__dirname, '../../file/assets/kao.png');
-
+async function generateImageWithOverlay(uploadedImageUrl, overlayImagePath) {
   try {
-    const background = await loadImage(uploadedImageUrl);  
+    const background = await loadImage(uploadedImageUrl);
     const overlayBuffer = fs.readFileSync(overlayImagePath);
     const overlay = await loadImage(overlayBuffer);
 
@@ -14,68 +12,64 @@ async function generateMeme(uploadedImageUrl) {
     const ctx = canvas.getContext('2d');
 
     ctx.drawImage(background, 0, 0);
-    ctx.drawImage(overlay, 0, 0, background.width, background.height);  
+    ctx.drawImage(overlay, 0, 0, background.width, background.height);
 
-    const buffer = canvas.toBuffer('image/png');
-
-    return buffer;  
+    return canvas.toBuffer('image/png');
   } catch (error) {
     console.error('画像の合成中にエラーが発生しました:', error);
-    throw new Error('画像の合成に失敗しました');  
+    throw new Error('画像の合成に失敗しました');
   }
 }
 
 async function generateNews(uploadedImageUrl) {
   const overlayImagePath = path.resolve(__dirname, '../../file/assets/news.png');
+  return generateImageWithOverlay(uploadedImageUrl, overlayImagePath);
+}
 
+async function generateKao(uploadedImageUrl) {
+  const overlayImagePath = path.resolve(__dirname, '../../file/assets/kao.png');
+  return generateImageWithOverlay(uploadedImageUrl, overlayImagePath);
+}
+
+// 共通処理: モノクロ化と色反転
+async function processImage(uploadedImageUrl, processType) {
   try {
-    // 背景画像を読み込み
-    const background = await loadImage(uploadedImageUrl);  
+    const image = await loadImage(uploadedImageUrl);
+    const canvas = createCanvas(image.width, image.height);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(image, 0, 0);
 
-    // オーバーレイ画像を読み込み
-    const overlayBuffer = fs.readFileSync(overlayImagePath);
-    const overlay = await loadImage(overlayBuffer);
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const data = imageData.data;
 
-    // オーバーレイ画像のサイズに合わせて背景画像をリサイズ
-    const overlayWidth = overlay.width;
-    const overlayHeight = overlay.height;
+    const processPixel = processType === 'mono' ? (i) => {
+      const gray = 0.3 * data[i] + 0.59 * data[i + 1] + 0.11 * data[i + 2];
+      data[i] = data[i + 1] = data[i + 2] = gray;
+    } : (i) => {
+      data[i] = 255 - data[i];
+      data[i + 1] = 255 - data[i + 1];
+      data[i + 2] = 255 - data[i + 2];
+    };
 
-    // 縦横比を保ちながら背景画像をリサイズ
-    const aspectRatio = background.width / background.height;
-    let newWidth, newHeight;
-
-    if (overlayWidth / overlayHeight > aspectRatio) {
-      newWidth = overlayWidth;
-      newHeight = Math.round(newWidth / aspectRatio);
-    } else {
-      newHeight = overlayHeight;
-      newWidth = Math.round(newHeight * aspectRatio);
+    // ピクセル処理
+    for (let i = 0; i < data.length; i += 4) {
+      processPixel(i);
     }
 
-    // リサイズされた背景画像
-    const resizedBackground = await createCanvas(newWidth, newHeight);
-    const ctx = resizedBackground.getContext('2d');
-    ctx.drawImage(background, 0, 0, newWidth, newHeight);
-
-    // 新しいキャンバスで合成
-    const canvas = createCanvas(newWidth, newHeight);
-    const ctx2 = canvas.getContext('2d');
-
-    ctx2.drawImage(resizedBackground, 0, 0);
-
-    // オーバーレイ画像を中心に配置
-    const centerX = (newWidth - overlayWidth) / 2;
-    const centerY = (newHeight - overlayHeight) / 2;
-    ctx2.drawImage(overlay, centerX, centerY, overlayWidth, overlayHeight);  
-
-    // 合成した画像をバッファに変換
-    const buffer = canvas.toBuffer('image/png');
-
-    return buffer;  
+    ctx.putImageData(imageData, 0, 0);
+    return canvas.toBuffer('image/png');
   } catch (error) {
-    console.error('画像の合成中にエラーが発生しました:', error);
-    throw new Error('画像の合成に失敗しました');  
+    console.error(`${processType}処理中にエラーが発生しました:`, error);
+    throw new Error(`${processType}処理に失敗しました`);
   }
 }
 
-module.exports = { generateMeme, generateNews };
+async function generateMono(uploadedImageUrl) {
+  return processImage(uploadedImageUrl, 'mono');
+}
+
+async function generateInversion(uploadedImageUrl) {
+  return processImage(uploadedImageUrl, 'inversion');
+}
+
+module.exports = { generateKao, generateNews, generateMono, generateInversion };
