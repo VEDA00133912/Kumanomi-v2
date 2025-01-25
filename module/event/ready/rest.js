@@ -34,6 +34,10 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
         console.log('Started refreshing application (/) commands.');
 
         await rest.put(
+          Routes.applicationCommands(configData.clientId), 
+          { body: [] }
+      );
+        await rest.put(
             Routes.applicationCommands(configData.clientId), 
             { body: commands }
         );

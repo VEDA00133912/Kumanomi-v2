@@ -6,10 +6,10 @@ const urlConfig = require('../../../../file/setting/url.json');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('user-5000choyen')
+    .setName('5000choyen')
     .setDescription('5000兆円欲しい!!風の画像生成')
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(ApplicationIntegrationType.UserInstall)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
     .addStringOption(option => option.setName('top').setDescription('上部文字列').setRequired(true).setMinLength(1).setMaxLength(30))
     .addStringOption(option => option.setName('bottom').setDescription('下部文字列').setRequired(true).setMinLength(1).setMaxLength(30)),
 

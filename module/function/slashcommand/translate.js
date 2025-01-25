@@ -42,6 +42,14 @@ module.exports = {
       await interaction.deferReply();
 
       const translatedText = await translater(text, '', targetLanguage);
+      if (translatedText.startsWith('エラーが発生しました')) {
+        const errorEmbed = createEmbed(interaction)
+        .setColor(Colors.Red) 
+        .setDescription(`**翻訳エラー**\n${translatedText}`);
+        await interaction.editReply({ embeds: [errorEmbed] });
+        return;
+      }
+      
       const embed = createEmbed(interaction)
         .setDescription(`**翻訳しました！**\n\`\`\`\n${translatedText}\n\`\`\``);
 

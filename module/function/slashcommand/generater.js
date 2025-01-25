@@ -6,8 +6,8 @@ const { createEmbed } = require('../../lib/embed');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('canvas')
-    .setDescription('画像加工を行います')
+    .setName('generater')
+    .setDescription('いろんなジェネレーター')
     .setContexts(InteractionContextType.Guild)
     .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
     .addAttachmentOption(option =>
@@ -21,7 +21,7 @@ module.exports = {
         .setRequired(true)
         .addChoices(
           { name: '顔の良さでなんとかなると思っているジェネレータ', value: 'meme' },
-          { name: 'ジェネレータ', value: 'news' }
+          { name: '推しの顔が良すぎるジェネレータ', value: 'news' }
         )
     ),
 

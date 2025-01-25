@@ -5,10 +5,10 @@ const { createEmbed } = require('../../../lib/embed');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('user-icon')
+    .setName('icon')
     .setDescription('アイコンを表示します')
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(ApplicationIntegrationType.UserInstall)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
     .addUserOption(option => 
       option.setName('user').setDescription('アイコンを表示したいユーザー').setRequired(true)
     ),

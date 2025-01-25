@@ -1,9 +1,9 @@
 const { ContextMenuCommandBuilder, ApplicationCommandType, MessageFlags, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
-const cooldown = require('../../event/other/cooldown');
-const contextMenuError = require('../../../error/contextmenu');
-const { generateTotsuShi } = require('../../lib/totsu-shi');
-const { validateMessageContent } = require('../../lib/invalidContent');
-const { checkMessageContent } = require('../../lib/content');
+const cooldown = require('../../../event/other/cooldown');
+const contextMenuError = require('../../../../error/contextmenu');
+const { generateTotsuShi } = require('../../../lib/totsu-shi');
+const { validateMessageContent } = require('../../../lib/invalidContent');
+const { checkMessageContent } = require('../../../lib/content');
 
 module.exports = {
   data: new ContextMenuCommandBuilder()
