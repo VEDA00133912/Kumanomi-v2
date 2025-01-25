@@ -1,17 +1,17 @@
 const { ApplicationCommandType, ContextMenuCommandBuilder, InteractionContextType, ApplicationIntegrationType, MessageFlags, Colors } = require('discord.js');
-const { translater } = require('../../lib/translate');  
-const { validateMessageContent } = require('../../lib/invalidContent'); 
-const { createEmbed } = require('../../lib/embed');
-const contextmenuError = require('../../../error/contextmenu');
-const cooldown = require('../../event/other/cooldown');
-const { checkMessageContent } = require('../../lib/content');
+const { translater } = require('../../../lib/translate');  
+const { validateMessageContent } = require('../../../lib/invalidContent'); 
+const { createEmbed } = require('../../../lib/embed');
+const contextmenuError = require('../../../../error/contextmenu');
+const cooldown = require('../../../event/other/cooldown');
+const { checkMessageContent } = require('../../../lib/content');
 
 module.exports = {
   data: new ContextMenuCommandBuilder()
-    .setName('英語に翻訳')
+    .setName('日本語に翻訳')
     .setType(ApplicationCommandType.Message)
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall),
 
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
@@ -21,7 +21,7 @@ module.exports = {
       await interaction.reply({ content: 'メッセージは200文字以下にしてください', flags: MessageFlags.Ephemeral });
       return;
     }
-    
+
     const issues = checkMessageContent(targetMessage);
     if (issues.length > 0) {
       await interaction.reply({
@@ -30,17 +30,17 @@ module.exports = {
       });
       return;
     }
-
+    
     if (await validateMessageContent(interaction, targetMessage.content)) return; 
 
     try {
       await interaction.deferReply();  
-      const translatedText = await translater(targetMessage.content, '', 'en');
-
+      const translatedText = await translater(targetMessage.content, '', 'ja');  
+          
       if (translatedText.startsWith('エラーが発生しました')) {
         const errorEmbed = createEmbed(interaction)
-          .setColor(Colors.Red) 
-          .setDescription(`**翻訳エラー**\n${translatedText}`);
+        .setColor(Colors.Red) 
+        .setDescription(`**翻訳エラー**\n${translatedText}`);
         await interaction.editReply({ embeds: [errorEmbed] });
         return;
       }

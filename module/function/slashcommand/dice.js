@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
 const slashCommandError = require('../../../error/slashcommand');
 const { createEmbed } = require('../../lib/embed');
@@ -7,6 +7,8 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('dice')
         .setDescription('多面ダイスを振ります')
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
         .addIntegerOption(option =>
             option.setName('count')
                 .setDescription('振る個数を指定してください')

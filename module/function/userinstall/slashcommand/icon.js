@@ -1,13 +1,14 @@
-const { SlashCommandBuilder, userMention } = require('discord.js');
-const cooldown = require('../../event/other/cooldown');
-const slashcommandError = require('../../../error/slashcommand');
-const { createEmbed } = require('../../lib/embed');
+const { SlashCommandBuilder, userMention, ApplicationIntegrationType, InteractionContextType } = require('discord.js');
+const cooldown = require('../../../event/other/cooldown');
+const slashcommandError = require('../../../../error/slashcommand');
+const { createEmbed } = require('../../../lib/embed');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('icon')
     .setDescription('アイコンを表示します')
-    .setIntegrationTypes(0,1)
+    .setContexts(InteractionContextType.Guild)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
     .addUserOption(option => 
       option.setName('user').setDescription('アイコンを表示したいユーザー').setRequired(true)
     ),

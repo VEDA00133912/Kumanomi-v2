@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, InteractionContextType, PermissionFlagsBits, EmbedBuilder, MessageFlags, Colors } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, PermissionFlagsBits, EmbedBuilder, MessageFlags, Colors, ApplicationIntegrationType } = require('discord.js');
 const cooldown = require('../../../event/other/cooldown');
 const slashcommandError = require('../../../../error/slashcommand');
 const Settings = require('../../../../file/setting/mongodb'); 
@@ -9,7 +9,7 @@ module.exports = {
         .setDescription('メッセージリンクの展開のオンオフ設定をします')
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .setContexts(InteractionContextType.Guild)
-        .setIntegrationTypes(0)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
         .addStringOption(option =>
             option.setName('on-off')
                 .setDescription('オンかオフを選択')

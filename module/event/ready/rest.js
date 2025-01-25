@@ -25,6 +25,7 @@ const loadCommands = (dir) => {
 
 loadCommands('slashcommand');
 loadCommands('contextmenu');
+loadCommands('userinstall');
 
 const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 
@@ -32,6 +33,10 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
     try {
         console.log('Started refreshing application (/) commands.');
 
+        await rest.put(
+          Routes.applicationCommands(configData.clientId), 
+          { body: [] }
+      );
         await rest.put(
             Routes.applicationCommands(configData.clientId), 
             { body: commands }

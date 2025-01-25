@@ -1,13 +1,14 @@
-const { SlashCommandBuilder, MessageFlags } = require('discord.js');
-const cooldown = require('../../event/other/cooldown');
-const errorHandler = require('../../../error/slashcommand');
-const { createEmbed } = require('../../lib/embed');
+const { SlashCommandBuilder, MessageFlags, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
+const cooldown = require('../../../event/other/cooldown');
+const errorHandler = require('../../../../error/slashcommand');
+const { createEmbed } = require('../../../lib/embed');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('invite')
         .setDescription('BOTの招待リンクを表示します')
-        .setIntegrationTypes(0, 1),
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall),
 
     async execute(interaction) {
         if (cooldown(this.data.name, interaction)) return;

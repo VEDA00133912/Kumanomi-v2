@@ -47,9 +47,9 @@ module.exports = {
     });
 
     const embed = new EmbedBuilder()
-      .setColor(Colors.R)
+      .setColor(Colors.Red)
       .setTimestamp()
-      .setFooter({ text:'Emubot | ticket delete', iconURL: interaction.client.user.displayAvatarURL() })
+      .setFooter({ text:'Kumanomi | ticket delete' })
       .setDescription(`<<:done:1299263286361063454> **チケットを作成しました。**\n削除する場合は下のボタンを押してください`);
 
     const del = new ButtonBuilder()

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const { translater } = require('../../lib/translate');
 const { validateMessageContent } = require('../../lib/invalidContent');
 const { createEmbed } = require('../../lib/embed');
@@ -9,6 +9,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('translate')
     .setDescription('他言語への翻訳をします')
+    .setContexts(InteractionContextType.Guild)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
     .addStringOption(option =>
       option.setName('text')
         .setDescription('翻訳したいテキストを入力してください')
@@ -40,6 +42,14 @@ module.exports = {
       await interaction.deferReply();
 
       const translatedText = await translater(text, '', targetLanguage);
+      if (translatedText.startsWith('エラーが発生しました')) {
+        const errorEmbed = createEmbed(interaction)
+        .setColor(Colors.Red) 
+        .setDescription(`**翻訳エラー**\n${translatedText}`);
+        await interaction.editReply({ embeds: [errorEmbed] });
+        return;
+      }
+      
       const embed = createEmbed(interaction)
         .setDescription(`**翻訳しました！**\n\`\`\`\n${translatedText}\n\`\`\``);
 

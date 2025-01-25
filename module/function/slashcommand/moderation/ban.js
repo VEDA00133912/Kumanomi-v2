@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags, Colors } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags, Colors, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const moderateUsers = require('../../../lib/moderate');
 const cooldown = require('../../../event/other/cooldown');
 const slashcommandError = require('../../../../error/slashcommand');
@@ -8,6 +8,8 @@ module.exports = {
     data: new SlashCommandBuilder()
         .setName('ban')
         .setDescription('指定したユーザーをBANします')
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
         .addUserOption(option =>
             option.setName('user1').setDescription('BANするユーザー1').setRequired(true))
         .addUserOption(option => option.setName('user2').setDescription('BANするユーザー2'))

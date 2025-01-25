@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, InteractionContextType, ButtonBuilder, ButtonStyle, ActionRowBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, ButtonBuilder, ButtonStyle, ActionRowBuilder, PermissionFlagsBits, ApplicationIntegrationType } = require('discord.js');
 const slashcommandError = require('../../../error/slashcommand');
 const cooldown = require('../../event/other/cooldown');
 const { createEmbed } = require('../../lib/embed');
@@ -9,7 +9,7 @@ module.exports = {
     .setName('ticket')
     .setDescription('チケットを作成します')
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(0)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels),
 
   async execute(interaction) {

@@ -1,25 +1,24 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, ApplicationIntegrationType, MessageFlags } = require('discord.js');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const cooldown = require('../../event/other/cooldown');
-const slashCommandError = require('../../../error/slashcommand'); 
-const { checkPermissions } = require('../../lib/permission');
-const { yahooNewsURL } = require('../../../file/setting/url.json');
+const cooldown = require('../../../event/other/cooldown');
+const slashcommandError = require('../../../../error/slashcommand'); 
+const config = require('../../../../file/setting/url.json');
 
 module.exports = {
     data: new SlashCommandBuilder()
         .setName('yahoonews')
-        .setDescription('Yahooニュースリンクを送信します'),
+        .setDescription('Yahooニュースリンクを送信します')
+        .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall),
 
     async execute(interaction) {
         if (cooldown(this.data.name, interaction)) return;
 
-        if (await checkPermissions(interaction, [PermissionFlagsBits.EmbedLinks])) return;
-
-        await interaction.deferReply();
+        await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
         try {
-            const response = await axios.get(yahooNewsURL);
+            const response = await axios.get(config.yahooNewsURL);
             const $ = cheerio.load(response.data);
             const newsLinks = $('a[href*="news.yahoo.co.jp/pickup"]')
                 .map((_, el) => $(el).attr('href'))
@@ -31,7 +30,7 @@ module.exports = {
 
             await interaction.editReply({ content: replyContent });
         } catch (error) {
-            slashCommandError(interaction.client, interaction, error);
+            slashcommandError(interaction.client, interaction, error);
         }
     }
 };

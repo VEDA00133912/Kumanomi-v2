@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits, InteractionContextType, MessageFlags, Colors } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, InteractionContextType, MessageFlags, Colors, ApplicationIntegrationType } = require('discord.js');
 const cooldown = require('../../../event/other/cooldown');
 const slashcommandError = require('../../../../error/slashcommand');
 const { checkPermissions } = require('../../../lib/permission');
@@ -10,6 +10,7 @@ module.exports = {
         .setDescription('低速モードの設定をします')
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
         .setContexts(InteractionContextType.Guild)
+        .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
         .addIntegerOption(option =>
             option.setName('time')
                 .setDescription('低速の時間を選択してください')

@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, MessageFlags, Colors } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits, MessageFlags, Colors, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const cooldown = require('../../event/other/cooldown');
 const slashcommandError = require('../../../error/slashcommand');
 const { checkPermissions } = require('../../lib/permission');
@@ -7,6 +7,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('delete')
     .setDescription('メッセージを削除します')
+    .setContexts(InteractionContextType.Guild)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
     .addIntegerOption(option => 
       option.setName('count')

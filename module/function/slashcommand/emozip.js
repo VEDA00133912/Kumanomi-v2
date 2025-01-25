@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, InteractionContextType, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, MessageFlags, ApplicationIntegrationType } = require('discord.js');
 const emojiZip = require('../../lib/emozip');  
 const slashcommandError = require('../../../error/slashcommand');
 const cooldown = require('../../event/other/cooldown');
@@ -8,7 +8,7 @@ module.exports = {
     .setName('getemoji')
     .setDescription('サーバーの絵文字をZIPファイルとしてダウンロードします')
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(0),
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
 
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;

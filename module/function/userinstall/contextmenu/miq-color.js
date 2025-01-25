@@ -1,16 +1,16 @@
 const { ApplicationCommandType, ContextMenuCommandBuilder, AttachmentBuilder, MessageFlags, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
 const { MiQ } = require('makeitaquote');
-const cooldown = require('../../event/other/cooldown');
-const contextmenuError = require('../../../error/contextmenu');
-const { createEmbed } = require('../../lib/embed');
-const { checkMessageContent } = require('../../lib/content');
+const cooldown = require('../../../event/other/cooldown');
+const contextmenuError = require('../../../../error/contextmenu');
+const { createEmbed } = require('../../../lib/embed');
+const { checkMessageContent } = require('../../../lib/content');
 
 module.exports = {
   data: new ContextMenuCommandBuilder()
-    .setName('Make it a Quote(モノクロ)')
+    .setName('Make it a Quote(カラー)')
     .setType(ApplicationCommandType.Message)
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall),
 
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
@@ -29,7 +29,7 @@ module.exports = {
 
     const miq = new MiQ()
       .setFromMessage(targetMessage)
-      .setColor(false) 
+      .setColor(true) 
       .setWatermark(interaction.client.user.tag);
 
     try {

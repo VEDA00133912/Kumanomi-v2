@@ -21,8 +21,9 @@ client.contextMenuCommands = new Collection();
 
 loadCommands(client, path.join(__dirname, 'module/function/slashcommand'));
 loadCommands(client, path.join(__dirname, 'module/function/contextmenu'));
+loadCommands(client, path.join(__dirname, 'module/function/userinstall'));
 loadAdminCommands(client, path.join(__dirname, 'module/function/admin'));
 loadEvents(client, path.join(__dirname, 'module/event'));
 
 setupGlobalErrorHandling(client);
-client.login(process.env.DISCORD_TOKEN);
+client.login(process.env.TOKEN);
