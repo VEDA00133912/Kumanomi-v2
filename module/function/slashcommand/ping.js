@@ -6,7 +6,7 @@ const { createEmbed } = require('../../lib/embed');
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('ping')
-    .setDescription('Ping値を測定します。')
+    .setDescription('Ping値を測定します')
     .setContexts(InteractionContextType.Guild)
     .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
 
