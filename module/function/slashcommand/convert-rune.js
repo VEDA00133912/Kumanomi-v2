@@ -6,14 +6,14 @@ const cooldown = require('../../event/other/cooldown');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('gaster')
-    .setDescription('ガスター語に変換')
+    .setName('rune')
+    .setDescription('ルーン文字に変換')
     .setContexts(InteractionContextType.Guild)
     .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
     .addStringOption(option =>
       option
         .setName('text')
-        .setDescription('変換するテキスト (英数字+記号のみ対応)')
+        .setDescription('変換するテキスト(漢字は非対応です)')
         .setRequired(true)
         .setMinLength(1)
         .setMaxLength(200)
@@ -25,10 +25,10 @@ module.exports = {
 
     try {
       const inputText = interaction.options.getString('text');
-      const gasterText = await convertText('gaster', inputText);
+      const runeText = await convertText('rune', inputText);
 
       const embed = createEmbed(interaction)
-             .setDescription(gasterText ? gasterText : '変換できませんでした')
+             .setDescription(runeText ? runeText : '変換できませんでした')
 
       await interaction.editReply({ embeds: [embed] });
 
