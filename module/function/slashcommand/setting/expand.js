@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, InteractionContextType, PermissionFlagsBits, EmbedBuilder, MessageFlags, Colors, ApplicationIntegrationType } = require('discord.js');
 const cooldown = require('../../../event/other/cooldown');
 const slashcommandError = require('../../../../error/slashcommand');
-const Settings = require('../../../../file/setting/mongodb'); 
+const { Expand } = require('../../../../file/setting/mongodb'); 
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -27,10 +27,10 @@ module.exports = {
         try {
             await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
-            let settings = await Settings.findOne({ guildId: interaction.guild.id });
+            let settings = await Expand.findOne({ guildId: interaction.guild.id });
 
             if (!settings) {
-                settings = new Settings({
+                settings = new Expand({
                     guildId: interaction.guild.id,
                     expand: status,
                 });
