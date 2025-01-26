@@ -9,7 +9,7 @@ async function checkRedirect(url) {
         return response.data.map(item => ({ url: item.url }));
     } catch (error) {
         console.error(error);
-        return { error: "API呼び出し中にエラーが発生しました。" };
+        return { error: 'API呼び出し中にエラーが発生しました' };
     }
 }
 
