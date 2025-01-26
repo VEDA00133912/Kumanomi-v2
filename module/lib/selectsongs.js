@@ -1,7 +1,7 @@
 const axios = require('axios');
 const { EmbedBuilder } = require('discord.js');
 const config = require('../../file/setting/url.json');
-const { selectionMap } = require('../../file/setting/select.js');
+const select = require('../../file/setting/select');
 
 module.exports = {
   async getRandomSongs(interaction, commandName, folder, option, count, embedColor) {
@@ -25,7 +25,8 @@ module.exports = {
         );
       }
 
-      const optionLabel = selectionMap[option] || option;
+      const selectedCategory = select[folder];
+      const optionLabel = selectedCategory[option] || option;
       const embed = new EmbedBuilder()
         .setTitle(`ランダム選曲の結果 (${optionLabel}・${selectedSongs.length} 曲)`)
         .setDescription(`${selectedSongs.join('\n')}`)
