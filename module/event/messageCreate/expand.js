@@ -90,6 +90,7 @@ module.exports = {
         } catch (error) {
           if (error.message === 'Unknown Message') continue;
           if (error.message === 'Missing Access') return;
+          if (error.message === 'Missing Permissions') return;
           throw error;
         }
       }
