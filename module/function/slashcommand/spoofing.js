@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ChannelType, InteractionContextType, PermissionFlagsBits } = require('discord.js');
+const { SlashCommandBuilder, ChannelType, InteractionContextType, PermissionFlagsBits, MessageFlags } = require('discord.js');
 const slashcommandError = require('../../../error/slashcommand');
 const cooldown = require('../../event/other/cooldown');
 const { validateMessageContent } = require('../../lib/invalidContent');
@@ -24,13 +24,13 @@ module.exports = {
     try {
       if (cooldown(this.data.name, interaction)) return;
 
-      if ([ChannelType.PublicThread, ChannelType.PrivateThread].includes(interaction.channel.type)) {
-        return interaction.reply({ content: '<:error:1302169165905526805> スレッドでは実行できません', ephemeral: true });
-      }
+      if (![ChannelType.GuildText, ChannelType.GuildVoice].includes(interaction.channel.type)) {
+        return interaction.reply({ content: '<:error:1302169165905526805> このコマンドはテキストチャンネルまたはVCでのみ使用できます', flags: MessageFlags.Ephemeral });
+      }      
 
       if (await checkPermissions(interaction, [PermissionFlagsBits.ManageWebhooks])) return;
 
-      await interaction.reply({ content: '<a:loading:1302169108888162334> 準備中...', ephemeral: true });
+      await interaction.reply({ content: '<a:loading:1302169108888162334> 準備中...', flags: MessageFlags.Ephemeral });
 
       const targetUser = interaction.options.getUser('target');
       const member = interaction.guild.members.cache.get(targetUser.id);
@@ -39,7 +39,7 @@ module.exports = {
       const displayName = nickname || member?.nickname || targetUser.username;
       
       if (forbiddenWords.some(word => displayName.toLowerCase().includes(word))) {
-        return interaction.editReply({ content: '<:error:1302169165905526805> ニックネームに禁止単語が含まれているため設定できません' });
+        return interaction.editReply({ content: '<:error:1302169165905526805> ニックネームに禁止単語が含まれているため設定できません', flags: MessageFlags.Ephemeral });
       }
 
       const message = interaction.options.getString('message');
@@ -56,7 +56,7 @@ module.exports = {
       };
 
       await webhookClient.send(options);
-      await interaction.editReply('<:check:1302169183110565958> メッセージ送信完了');
+      await interaction.editReply({ content: '<:check:1302169183110565958> メッセージ送信完了', flags: MessageFlags.Ephemeral });
     } catch (error) {
       await slashcommandError(interaction.client, interaction, error);
     }
