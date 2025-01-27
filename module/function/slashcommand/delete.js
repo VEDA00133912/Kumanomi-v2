@@ -52,7 +52,7 @@ module.exports = {
         .setTimestamp()
         .setFooter({ text: 'Kumanomi | deleted', iconURL: interaction.client.user.displayAvatarURL() });
 
-      await interaction.editReply({ embeds: [completedEmbed], flags: MessageFlags.Ephemeral });
+      await interaction.editReply({ embeds: [completedEmbed] });
 
     } catch (error) {
       slashcommandError(interaction.client, interaction, error);

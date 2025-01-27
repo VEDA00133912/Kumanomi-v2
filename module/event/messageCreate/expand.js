@@ -58,8 +58,12 @@ module.exports = {
       
       for (const url of urls) {
         const [guildId, channelId, messageId] = url.split('/').slice(-3);
-        const channel = client.guilds.cache.get(guildId)?.channels.cache.get(channelId);
+        const guild = client.guilds.cache.get(guildId);
+        if (!guild) continue;
 
+        const channel = guild.channels.cache.get(channelId);
+        if (!channel) continue;
+        
         try {
           const fetchedMessage = await channel.messages.fetch(messageId);
           const { content, embeds, attachments, poll, author, createdTimestamp } = fetchedMessage;

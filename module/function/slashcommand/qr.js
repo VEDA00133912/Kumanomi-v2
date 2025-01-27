@@ -25,10 +25,7 @@ module.exports = {
       const url = interaction.options.getString('url');
 
       if (!isValidUrl(url)) {
-        await interaction.editReply({
-          content: invalidUrlMessage(), 
-          flags: MessageFlags.Ephemeral,
-        });
+        await interaction.editReply({ content: invalidUrlMessage() });
         return;
       }
 
@@ -39,10 +36,7 @@ module.exports = {
         .addFields({ name: 'URL', value: url })
         .setImage(qrApiUrl);
 
-      await interaction.editReply({
-        embeds: [embed],
-        flags: MessageFlags.Ephemeral,
-      });
+      await interaction.editReply({ embeds: [embed] });
     } catch (error) {
       slashcommandError(interaction.client, interaction, error);
     }

@@ -27,6 +27,8 @@ module.exports = {
   async execute(interaction) {
     if (cooldown(this.data.name, interaction)) return;
     try {
+      await this.sendLoadingEmbed(interaction, '#f47fff', '<a:loading:1302169108888162334> 生成中...');
+      await new Promise(resolve => setTimeout(resolve, 1000)); 
       await this.executeNitro(interaction);
     } catch (error) {
       await slashcommandError(interaction.client, interaction, error); 
@@ -48,7 +50,6 @@ module.exports = {
 
   async executeNitro(interaction) {
     try {
-      await this.sendLoadingEmbed(interaction, '#f47fff', '<a:loading:1302169108888162334> 生成中...');
       const quantity = interaction.options.getInteger('count');
       const type = interaction.options.getString('type');
       const nitroLinks = generateNitroLinks(quantity, type);
@@ -56,7 +57,7 @@ module.exports = {
       const embed = new EmbedBuilder()
         .setColor('#f47fff')
         .setTimestamp()
-        .setFooter({ text: 'Kumanomi | fake nitro', iconURL: interaction.client.user.displayAvatarURL() })
+        .setFooter({ text: 'Kumanomi | nitro', iconURL: interaction.client.user.displayAvatarURL() })
         .setDescription(`<a:boost:1302168991015506003> **Fake ${type === 'nitro' ? 'Nitro Gift' : 'Promo Nitro'} Links** <a:boost:1302168991015506003>\n${nitroLinks.join('\n')}`);
 
       await interaction.editReply({ embeds: [embed] });

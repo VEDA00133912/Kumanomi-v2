@@ -1,9 +1,10 @@
 const fs = require('fs').promises;
 const axios = require('axios');
 const path = require('path');
+const config = require('../../file/setting/url.json');
 
 const generateAudio = async (text, interaction) => {
-  const url = 'https://plbwpbyme3.execute-api.ap-northeast-1.amazonaws.com/production/coefonts/19d55439-312d-4a1d-a27b-28f0f31bedc5/try';
+  const url = config.hiroyuki_API;
   const headers = { 'Content-Type': 'application/json' };
   const data = { text };
 

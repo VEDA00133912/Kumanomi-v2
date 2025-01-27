@@ -39,7 +39,7 @@ module.exports = {
       const displayName = nickname || member?.nickname || targetUser.username;
       
       if (forbiddenWords.some(word => displayName.toLowerCase().includes(word))) {
-        return interaction.editReply({ content: '<:error:1302169165905526805> ニックネームに禁止単語が含まれているため設定できません', flags: MessageFlags.Ephemeral });
+        return interaction.editReply({ content: '<:error:1302169165905526805> ニックネームに禁止単語が含まれているため設定できません' });
       }
 
       const message = interaction.options.getString('message');
@@ -56,7 +56,7 @@ module.exports = {
       };
 
       await webhookClient.send(options);
-      await interaction.editReply({ content: '<:check:1302169183110565958> メッセージ送信完了', flags: MessageFlags.Ephemeral });
+      await interaction.editReply({ content: '<:check:1302169183110565958> メッセージ送信完了' });
     } catch (error) {
       await slashcommandError(interaction.client, interaction, error);
     }
