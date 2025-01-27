@@ -1,13 +1,13 @@
 const { SlashCommandBuilder, ModalBuilder, TextInputBuilder, TextInputStyle, ActionRowBuilder, InteractionContextType, ApplicationIntegrationType } = require('discord.js');
-const slashcommandError = require('../../../error/slashcommand');
-const cooldown = require('../../event/other/cooldown');
+const slashcommandError = require('../../../../error/slashcommand');
+const cooldown = require('../../../event/other/cooldown');
 
 module.exports = {
     data: new SlashCommandBuilder()
     .setName('embedbuilder')
     .setDescription('埋め込みメッセージを作成します')
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall),
 
   async execute(interaction) {
     try {
@@ -21,14 +21,14 @@ module.exports = {
         .setLabel('埋め込みのタイトル(必須)')
         .setStyle(TextInputStyle.Short)
         .setRequired(true)
-        .setMaxLength(100); 
+        .setMaxLength(50); 
 
       const descriptionInput = new TextInputBuilder()
         .setCustomId('descriptionInput')
         .setLabel('埋め込みの内容(必須)')
         .setStyle(TextInputStyle.Paragraph)
         .setRequired(true)
-        .setMaxLength(400); 
+        .setMaxLength(200); 
 
       const colorInput = new TextInputBuilder()
         .setCustomId('colorInput')
@@ -41,7 +41,7 @@ module.exports = {
         .setLabel('フッターの内容 (任意)')
         .setStyle(TextInputStyle.Short)
         .setRequired(false)
-        .setMaxLength(100); 
+        .setMaxLength(50); 
 
       modal.addComponents(
         new ActionRowBuilder().addComponents(titleInput),
