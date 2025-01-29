@@ -28,13 +28,6 @@ async function loadCommands(client, directory) {
     });
 }
 
-async function loadAdminCommands(client, directory) {
-    const adminCommandFiles = await loadFiles(directory);
-    adminCommandFiles.forEach(adminCommand => {
-        client.on(adminCommand.name, (...args) => adminCommand.execute(...args, client));
-    });
-}
-
 async function loadEvents(client, directory) {
     const eventFiles = await loadFiles(directory);
     eventFiles.forEach(event => {
@@ -48,6 +41,5 @@ async function loadEvents(client, directory) {
 
 module.exports = {
     loadCommands,
-    loadAdminCommands,
     loadEvents,
 };
