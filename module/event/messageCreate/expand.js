@@ -1,4 +1,4 @@
-const { EmbedBuilder, Events, Colors } = require('discord.js');
+const { EmbedBuilder, Events, Colors, MessageType, ChannelType, userMention } = require('discord.js');
 const { Expand, Blacklist } = require('../../../file/setting/mongodb');
 const config = require('../../../file/setting/config.json');
 
@@ -6,7 +6,7 @@ module.exports = {
   name: Events.MessageCreate,
   async execute(message, client) {
     if (message.author.bot) return;
-
+      
     const suspiciousPatterns = [
       /[\w-]{24}\.[\w-]{6}\.[\w-]{27}/, 
       /(discord\.com|discord\.gg|discordapp\.com|invite)/i,
@@ -58,15 +58,34 @@ module.exports = {
       
       for (const url of urls) {
         const [guildId, channelId, messageId] = url.split('/').slice(-3);
-        const guild = client.guilds.cache.get(guildId);
-        if (!guild) continue;
+        const channel = client.guilds.cache.get(guildId)?.channels.cache.get(channelId);
 
-        const channel = guild.channels.cache.get(channelId);
-        if (!channel) continue;
-        
         try {
           const fetchedMessage = await channel.messages.fetch(messageId);
-          const { content, embeds, attachments, poll, author, createdTimestamp } = fetchedMessage;
+          const { content, embeds, attachments, poll, author, createdTimestamp, type } = fetchedMessage;
+          const messageTypeResponses = {
+      [MessageType.GuildBoostTier1]: `<:1_Level_Boost:1335166424909479996> ${message.guild.name} が **レベル1 を達成しました！**`,
+      [MessageType.GuildBoostTier2]: `<:2_Level_Boost:1335166412234424330> ${message.guild.name} が **レベル2 に到達しました！**`,
+      [MessageType.GuildBoostTier3]: `<:3_Level_Boost:1335166399299059722> ${message.guild.name} が **レベル3 に到達しました！**`,
+      [MessageType.GuildBoost]: `<:Community_Server_Boost:1335164321466159124> ${userMention(fetchedMessage.author.id)}がサーバーをブーストしました！`,
+      [MessageType.ChannelFollowAdd]: `<:News:1335164921297506385> ${fetchedMessage.author.globalName}が**${fetchedMessage.content}**をこのチャンネルに追加しました。 大切な更新がここに表示されます。`,
+      [MessageType.AutoModerationAction]: '<:automod:1335157547467935764> Automodが実行されました',
+      [MessageType.ChannelPinnedMessage]: `<:Pinned_New:1335164950292856883> ${fetchedMessage.author.globalName}がメッセージをチャンネルにピン留めしました`,
+      [MessageType.PollResult]: `<:Communication_Requests:1335166359801430046> ${fetchedMessage.author.globalName}の投票が終了しました`,
+      [MessageType.UserJoin]: `<:NewMember_Chat:1335165371313029171> ${userMention(fetchedMessage.author.id)}が参加しました！`,
+      [MessageType.StageStart]: `<:stage:1335408262123880509> ${fetchedMessage.author.globalName}が**${fetchedMessage.content}**を開始しました`,
+      [MessageType.StageEnd]: `<:stageend:1335408285028712519> ${fetchedMessage.author.globalName}が**${fetchedMessage.content}**を終了しました`,
+    };
+          
+          if (type in messageTypeResponses) {
+            const embed = new EmbedBuilder()
+              .setColor(Colors.Blue)
+              .setDescription(messageTypeResponses[type])
+              .setFooter({ text: 'Kumanomi | Expand', iconURL: client.user.displayAvatarURL() })
+              .setTimestamp();
+            return message.channel.send({ embeds: [embed] });
+          }
+
           if (suspiciousPatterns.some((regex) => regex.test(content))) {
             return;
           }
@@ -92,7 +111,7 @@ module.exports = {
 
           await message.channel.send({ embeds: [embed] });
         } catch (error) {
-          if (error.message === 'Unknown Message') continue;
+          if (error.message === 'Unknown Message') return;
           if (error.message === 'Missing Access') return;
           if (error.message === 'Missing Permissions') return;
           throw error;
