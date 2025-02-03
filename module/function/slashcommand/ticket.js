@@ -27,9 +27,12 @@ module.exports = {
       const embed = createEmbed(interaction)
         .setDescription('チケットを作成するには下のボタンを押してください');
 
+      const button = new ActionRowBuilder()
+        .addComponents(create);
+
       await interaction.reply({
         embeds: [embed],
-        components: [new ActionRowBuilder().addComponents(create)],
+        components: [button],
       });
     } catch (error) {
       slashcommandError(interaction.client, interaction, error);

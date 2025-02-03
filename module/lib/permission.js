@@ -1,51 +1,22 @@
 const { EmbedBuilder, MessageFlags } = require('discord.js');
 const { permissions: permissionNames } = require('../../file/setting/permission');
 
-const commandsRequiringUserPerms = [
-    'create role', 
-    'create channel', 
-    'create emoji'
-];
-
 async function checkPermissions(interaction, requiredPermissions) {
-    const mainCommandName = interaction.commandName;
-    let subCommandName;
-    try {
-        subCommandName = interaction.options.getSubcommand() || null;
-    } catch {
-        subCommandName = null;
-    }
-
-    const fullCommandName = subCommandName 
-        ? `${mainCommandName} ${subCommandName}` 
-        : mainCommandName;
-
-    const isUserPermsCheckRequired = commandsRequiringUserPerms.includes(fullCommandName);
-
-    if (!interaction.member || !interaction.guild?.members?.me) {
-        console.error('User or bot member information is missing.');
+    if (!interaction.guild?.members?.me) {
+        console.error('BOTの情報を取得できませんでした');
         await interaction.reply({
-            content: '<:error:1302169165905526805> ユーザーまたはBOTの情報を取得できませんでした。',
+            content: '<:error:1302169165905526805> BOTの情報を取得できませんでした',
             flags: MessageFlags.Ephemeral
         });
         return true;
     }
 
-    const userMember = interaction.member;
     const botMember = interaction.guild.members.me;
 
-    const missingMemberPerms = isUserPermsCheckRequired
-        ? requiredPermissions.filter(perm => !userMember.permissions.has(perm))
-        : [];
     const missingBotPerms = requiredPermissions.filter(perm => !botMember.permissions.has(perm));
 
-    if (missingMemberPerms.length || missingBotPerms.length) {
-        const missingPermsText = (missingMemberPerms.length
-            ? `- あなたに不足している権限\n\`\`\`\n${missingMemberPerms.map(perm => permissionNames[perm] || perm).join('\n')}\n\`\`\``
-            : '') + 
-            (missingBotPerms.length
-                ? `- BOTに不足している権限\n\`\`\`\n${missingBotPerms.map(perm => permissionNames[perm] || perm).join('\n')}\n\`\`\``
-                : '');
+    if (missingBotPerms.length) {
+        const missingPermsText = `- BOTに不足している権限\n\`\`\`\n${missingBotPerms.map(perm => permissionNames[perm] || perm).join('\n')}\n\`\`\``;
 
         const missingPermsEmbed = new EmbedBuilder()
             .setColor('Red')

@@ -18,7 +18,7 @@ module.exports = {
                 await command.execute(interaction, client);
             } catch (error) {
                 interactionError(client, interaction, error);
-                interaction.channel?.reply('<:error:1302169165905526805> コマンド実行中にエラーが発生しました');
+                interaction.reply('<:error:1302169165905526805> コマンド実行中にエラーが発生しました');
             }
         } else if (interaction.isContextMenuCommand()) {
             try {
@@ -34,7 +34,7 @@ module.exports = {
                 await command.execute(interaction, client);
             } catch (error) {
                 interactionError(client, interaction, error);
-                interaction.channel?.reply('<:error:1302169165905526805> コマンド実行中にエラーが発生しました');
+                interaction.reply('<:error:1302169165905526805> コマンド実行中にエラーが発生しました');
             }
         }
     },

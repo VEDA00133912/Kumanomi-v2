@@ -1,13 +1,13 @@
 const { SlashCommandBuilder, MessageFlags, ApplicationIntegrationType, InteractionContextType } = require('discord.js');
-const { generateAudio, deleteAudioFile } = require('../../lib/hiroyuki');
-const cooldown = require('../../event/other/cooldown');
+const { generateAudio, deleteAudioFile } = require('../../../lib/hiroyuki');
+const cooldown = require('../../../event/other/cooldown');
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('hiroyuki')
     .setDescription('ひろゆきボイスのMP3に変換します')
     .setContexts(InteractionContextType.Guild)
-    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall)
+    .setIntegrationTypes(ApplicationIntegrationType.GuildInstall, ApplicationIntegrationType.UserInstall)
     .addStringOption(option =>
       option.setName('text')
         .setDescription('ひろゆきに喋らせる内容')

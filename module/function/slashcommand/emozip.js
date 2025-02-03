@@ -5,7 +5,7 @@ const cooldown = require('../../event/other/cooldown');
 
 module.exports = {
   data: new SlashCommandBuilder()
-    .setName('getemoji')
+    .setName('emozip')
     .setDescription('サーバーの絵文字をZIPファイルとしてダウンロードします')
     .setContexts(InteractionContextType.Guild)
     .setIntegrationTypes(ApplicationIntegrationType.GuildInstall),

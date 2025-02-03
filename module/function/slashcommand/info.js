@@ -30,7 +30,7 @@ module.exports = {
   async execute(interaction) {
     try {
       const subcommand = interaction.options.getSubcommand();
-      if (cooldown(`search-${subcommand}`, interaction)) return;
+      if (cooldown(`info ${subcommand}`, interaction)) return;
 
 
       if (subcommand === 'user') {
@@ -45,7 +45,7 @@ module.exports = {
               .setThumbnail(avatarURL)
               .addFields(
                   { name: '🔥 ユーザー名', value: user.tag },
-                  { name: '🆔 ユーザーID', value: `${user.id}`},
+                  { name: '<:copy_id:1335163116945801236> ユーザーID', value: `${user.id}`},
                   // { name: 'ステータス', value: status, inline: true },
                   { name: '<:booster:1302168973172805642> ブースト', value: isBoosting },
                   { name: '<:user:1292675664368898049> 作成日', value: createdAt, inline: true},
@@ -62,7 +62,6 @@ module.exports = {
 
           await interaction.editReply({ embeds: [embed] });
       } else if (subcommand === 'server') {
-        await interaction.deferReply();
         const guild = interaction.guild;
         const serverIconUrl = guild.iconURL({ size: 2048 });
         const defaultIconUrl = config.defaultIconUrl;
@@ -80,14 +79,14 @@ module.exports = {
           .setDescription(`**${guild.name} (${guild.id})**`)
           .setThumbnail(thumbnailUrl)
           .addFields(
-            { name: '👑 鯖主', value: `<@${guild.ownerId}>` },
+            { name: '<:Owner:1335165382645780553> 鯖主', value: `<@${guild.ownerId}>` },
             { name: '<:booster:1302168973172805642> ブースト', value: `${guild.premiumSubscriptionCount} Boosts (Level ${guild.premiumTier})` },
-            { name: '🚫 BANユーザー数', value: `${bannedCount} Users` },
-            { name: '<:discord:1302168903857737760> チャンネル数', value: `Total: ${totalChannelsCount}\n<:text:1302169026470084711> Text: ${textChannelsCount} | <:vc:1302169041334571038> Voice: ${voiceChannelsCount} | <:category:1302169054735241236> Categories: ${categoryCount}`, inline: false },
+            { name: '<:ban_hammer:1335167793108221992> BANユーザー数', value: `${bannedCount} Users` },
+            { name: '<:discord:1302168903857737760> チャンネル数', value: `Total: ${totalChannelsCount}\n<:text:1302169026470084711> Text: ${textChannelsCount} | <:vc:1302169041334571038> Voice: ${voiceChannelsCount} | <:Guild_Category:1335482248807579678> Categories: ${categoryCount}`, inline: false },
            { name: '<:user:1302192406715961354> メンバー情報', value: `Total: ${memberCount} (User: ${userCount} | BOT: ${botCount})` },
           // { name: '<:user:1302192406715961354> メンバー情報', value: `Total: ${memberCount} (User: ${userCount} | BOT: ${botCount})\n<:online:1302168826972078131> : ${onlineCount} | <:dnd:1302168871037435914> : ${dndCount} | <:idle:1302168854541373450> : ${idleCount} | <:offline:1302168842981740617> : ${offlineCount}`, inline: false },
             { name: '🔗 ロール数', value: `${roleCount} Roles`, inline: true },
-            { name: '😎 絵文字数', value: `${emojiCount} Emojis`, inline: true },
+            { name: '<:Super_Reaction:1335164241363079189> 絵文字数', value: `${emojiCount} Emojis`, inline: true },
             { name: '⚙ 作成日', value: `${createdAt} <t:${Math.floor(guild.createdTimestamp / 1000)}:R>`, inline: true }
           );
 
@@ -95,7 +94,7 @@ module.exports = {
           embed.setImage(bannerURL);
         }
 
-        await interaction.editReply({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
       } else if (subcommand === 'system') {
         await interaction.deferReply({ flags: MessageFlags.Ephemeral });
           const { uptime, freemem, totalmem, cpus, arch } = getSystemInfo();

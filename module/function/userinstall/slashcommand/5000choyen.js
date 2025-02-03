@@ -2,7 +2,7 @@ const { SlashCommandBuilder, ApplicationIntegrationType, InteractionContextType 
 const cooldown = require('../../../event/other/cooldown');
 const slashcommandError = require('../../../../error/slashcommand');
 const { createEmbed } = require('../../../lib/embed');
-const urlConfig = require('../../../../file/setting/url.json');
+const config = require('../../../../file/setting/url.json');
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -19,7 +19,7 @@ module.exports = {
     try {
       await interaction.deferReply();
       const [top, bottom] = [interaction.options.getString('top'), interaction.options.getString('bottom')];
-      const embed = createEmbed(interaction).setImage(`${urlConfig['5000choyen_API']}?top=${encodeURIComponent(top)}&bottom=${encodeURIComponent(bottom)}&type=png`);
+      const embed = createEmbed(interaction).setImage(`${config['5000choyen_API']}?top=${encodeURIComponent(top)}&bottom=${encodeURIComponent(bottom)}&type=png`);
       await interaction.editReply({ embeds: [embed] });
     } catch (error) {
       slashcommandError(interaction.client, interaction, error);

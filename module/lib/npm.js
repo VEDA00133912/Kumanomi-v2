@@ -1,9 +1,9 @@
 const axios = require('axios');
-const { npmURL } = require('../../file/setting/url.json');  
+const config = require('../../file/setting/url.json');  
 
 async function getPackageInfo(packageName) {
   try {
-    const { data } = await axios.get(`${npm_URL}${packageName}`);
+    const { data } = await axios.get(`${config.npmURL}${packageName}`);
     const latestVersion = data['dist-tags'].latest;
     const { license, author, homepage, repository } = data.versions[latestVersion];
 

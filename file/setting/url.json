@@ -7,5 +7,6 @@
     "qr_API": "https://api.qrserver.com/v1/create-qr-code/",
     "redirect_API": "https://ntool.online/api/",
     "defaultIconUrl": "https://cdn.discordapp.com/embed/avatars/1.png",
-    "userflaggs_API": "https://japi.rest/discord/v1/user/"
+    "userflaggs_API": "https://japi.rest/discord/v1/user/",
+    "hiroyuki_API": "https://plbwpbyme3.execute-api.ap-northeast-1.amazonaws.com/production/coefonts/19d55439-312d-4a1d-a27b-28f0f31bedc5/try"
 }

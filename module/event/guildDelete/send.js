@@ -4,7 +4,7 @@ const config = require('../../../file/setting/config.json');
 module.exports = {
   name: Events.GuildDelete,
   async execute(guild, client) {
-    const joinChannelId = config.joinChannelId; 
+    const joinChannelId = config.joinLogChannelId; 
     const totalGuilds = client.guilds.cache.size; 
 
     try {
@@ -16,7 +16,7 @@ module.exports = {
           .setTitle(`${guild.name} を脱退しました`)
           .setDescription(`現在 ${totalGuilds} サーバーに導入されています`)
           .setThumbnail(avatarURL)  
-          .setFooter({ text: 'Kumanomi | leave', iconURL: avatarURL })
+          .setFooter({ text: 'Kumanomi | leave', iconURL: client.user.displayAvatarURL() })
           .setTimestamp() 
           .setColor(Colors.Red); 
 
