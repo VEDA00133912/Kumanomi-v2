@@ -4,6 +4,7 @@ const getUserPublicFlags = require('./infouser-flags.js')
 
 async function getUserData(interaction) {
     const user = interaction.options.getUser('target');
+
     const member = await interaction.guild.members.fetch(user.id).catch(() => null);
     const avatarURL = member?.displayAvatarURL({ size: 2048 }) || user.displayAvatarURL({ size: 2048 });
 
@@ -26,16 +27,27 @@ async function getUserData(interaction) {
     const status = statusMap[member?.presence?.status] || '<:offline:1282208115214782476> オフライン';
 
 */
-    const bannerURL = await interaction.client.users.fetch(user.id, { force: true })
-        .then(user => user.bannerURL({ size: 1024 }));
+
+    const fetchedUser = await interaction.client.users.fetch(user.id, { force: true });
+    const bannerURL = fetchedUser.bannerURL({ size: 1024 });
 
     const publicFlagsArray = await getUserPublicFlags(user.id);
+    console.dir(user, { depth: null });
     let userBadges = publicFlagsArray.map(flag => badges[flag] || '').join(' '); 
 
     const isBoosting = member?.premiumSince ? 'Yes' : 'No';
     if (isBoosting === 'Yes') {
         userBadges += ` ${badges['BOOSTER']}`; 
     }
+
+    let nitroStatus = 'なし';
+    if (fetchedUser.premiumType === 1) {
+        nitroStatus = 'Nitro Classic';
+    } else if (fetchedUser.premiumType === 2) {
+        nitroStatus = 'Nitro';
+    }
+
+    console.log(nitroStatus);
 
     return {
         user,
